@@ -1,1 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+@import '~dropzone/dist/min/dropzone.min.css';
+.dropzone{
+	height: 500px;
+	border-style: dashed;
+	border-color: white;
+	border-width: 4px;
+	background-color: transparent;
+	color: white;
+}
+
+.dz-message{
+	color: white;
+}
+
+.dz-remove{
+	color: #E74C3C;
+	font-size: 20px !important;
+	margin-top: 10px;
+}
+
+.dropzone .dz-preview.dz-image-preview{
+	background-color: transparent;
+}
+
+.dz-image {
+	width: 250px !important;
+	height: 250px !important;
+}

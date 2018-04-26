@@ -1,0 +1,25 @@
+<div class="container" *ngIf="product$ | async as product">
+	<div class="row">
+		<div class="col-6">
+			<img [src]="mainImage" width="480" alt="..." class="">
+			<img src="{{product.product_image.thumbnail_front_path}}" alt="..." class="img-thumbnail" (click)="changeMainImage(product.product_image.front_path)">
+			<img src="{{product.product_image.thumbnail_back_path}}" alt="..." class="img-thumbnail"
+			(click)="changeMainImage(product.product_image.back_path)">
+			<span *ngFor="let match_image of product.match_images">
+				<img src="{{match_image.thumbnail_path}}" alt="..." class="img-thumbnail">
+			</span>
+			<span *ngFor="let loa_image of product.loa_images">
+				<img src="{{loa_image.thumbnail_path}}" alt="..." class="img-thumbnail">
+			</span>
+			<span *ngFor="let other_image of product.other_images">
+				<img src="{{other_image.thumbnail_path}}" alt="..." class="img-thumbnail"
+				(click)="changeMainImage(other_image.path)">
+			</span>
+		</div>
+		<div class="col-6">
+			
+		</div>
+
+	</div>
+	<button type="button" class="btn btn-primary" (click)="gotoProducts()">Go back</button>
+</div>

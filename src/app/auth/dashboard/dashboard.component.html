@@ -1,0 +1,40 @@
+<div class="container">
+	<div class="row">
+		<div class="col-4">
+			
+		</div>
+		<div class="col-8">
+			<h2 class="mb-3">我的产品</h2>	
+			<div class="card mb-3" *ngFor="let product of products">
+				<div class="card-body media">
+					<img src="{{ product.product_image.thumbnail_front_path }}" alt="..." class="img-thumbnail align-self-start mr-3">
+					<div class="media-body">
+						<h6>
+							<span *ngFor="let player of product.players">{{player.name}} </span>
+							<span>{{product.team.name}} </span>
+							<span *ngFor="let season of product.seasons">{{season.name}} </span>
+							<span>{{product.edition.name}} </span>
+							<span>{{product.level.name}} </span>
+							<span *ngFor="let size of product.sizes">{{size.name}} </span>
+							<span *ngFor="let item of product.items">{{item.name}} </span>
+							<span *ngFor="let loa of product.loas">{{loa.name}} </span>
+						</h6>
+						<p>
+							{{ product.price | currency:'¥ '}} 
+						</p>
+						<p>
+							<span *ngIf="product.forSale == 1" class="badge badge-danger">出售中</span>
+							<span *ngIf="product.forSale == 0" class="badge badge-danger">收藏展示</span>
+							<span *ngIf="product.tradeMethod == 'platform' || product.tradeMethod == 'both'" class="badge badge-warning">支持平台担保交易</span>
+							<span *ngIf="product.tradeMethod == 'private' || product.tradeMethod == 'both'" class="badge badge-warning">支持私下交易</span>
+							<span *ngIf="product.quotedMethod == 'fixed' || product.quotedMethod == 'both'" class="badge badge-info">接受一口价</span>
+							<span *ngIf="product.quotedMethod == 'quoted' || product.quotedMethod == 'both'" class="badge badge-info">接受报价</span>
+						</p>
+						<button type="button" class="btn btn-primary">编辑</button>
+						<button type="button" class="btn btn-danger">删除</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

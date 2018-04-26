@@ -1,0 +1,42 @@
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-6">
+			<form [formGroup]="registerForm">
+				<p>value: {{ registerForm.value | json }}</p>
+				<p>status: {{ registerForm.status | json }}</p>
+				<div class="form-group">
+					<label for="name">用户名</label>
+					<input type="name" class="form-control" [ngClass]="{'is-invalid': registerForm.controls['name'].invalid && registerForm.controls['name'].touched}" formControlName="name" required>
+					<div class="invalid-feedback" *ngIf="registerForm.controls['name'].hasError('required')">
+						用户名是必填项
+					</div>
+					<div class="invalid-feedback" *ngIf="registerForm.controls['name'].hasError('minlength')">
+						用户名最少4个字符
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="email">电子邮件</label>
+					<input type="email" class="form-control" formControlName="email" [ngClass]="{'is-invalid': registerForm.controls['email'].invalid && registerForm.controls['email'].touched}" required>
+					<div class="invalid-feedback">
+						请输入正确的电子邮件地址
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="password">密码</label>
+					<input type="password" class="form-control" formControlName="password" [ngClass]="{'is-invalid': registerForm.controls['password'].invalid && registerForm.controls['password'].touched}" required>
+					<div class="invalid-feedback" *ngIf="registerForm.controls['password'].hasError('minlength')">
+						密码最少6位
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="password_confirm">确认密码</label>
+					<input type="password" class="form-control" formControlName="password_confirmation" [ngClass]="{'is-invalid': registerForm.hasError('invalid') && registerForm.controls['password_confirmation'].touched}" required>
+					<div class="invalid-feedback" *ngIf="registerForm.hasError('invalid')">
+						密码不一致
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary float-right mb-3" [disabled]="registerForm.invalid" (click)="register()">注册</button>
+			</form>
+		</div>
+	</div>
+</div>
