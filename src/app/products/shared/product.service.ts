@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 
+import { environment } from '../../../environments/environment';
+
 const httpOptions = {
 	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -14,8 +16,8 @@ const httpOptions = {
 @Injectable()
 export class ProductService {
 
-	 private productsUrl = 'http://localhost:8000/api/products';  // URL to web api
-	 private userProductsUrl = 'http://localhost:8000/api/user/products';
+	 private productsUrl = environment.baseUrl+'/api/products';  // URL to web api
+	 private userProductsUrl = environment.baseUrl+'/api/user/products';
 	 constructor(private http: HttpClient) { }
 
 	 getProducts(): Observable<Product[]> {
@@ -28,12 +30,18 @@ export class ProductService {
 	 }
 
 	 getUserProducts(userId): Observable<Product[]> {
-	 	const userProductsUrl = `http://localhost:8000/api/user/${userId}/products`;
+	 	const userProductsUrl = environment.baseUrl+`/api/user/${userId}/products`;
 	 	return this.http.get<Product[]>(userProductsUrl);
 	 }
 
 	 addProduct(product: Product): Observable<any> {
 	 	return this.http.post(this.productsUrl, product);
+	 }
+
+	 deleteProduct(product: Product | number): Observable<Product> {
+	 	const id = typeof product === 'number' ? product : product.id;
+	 	const url = `${this.productsUrl}/${id}`;
+	 	return this.http.delete<Product>(url, httpOptions);
 	 }
 
 	}

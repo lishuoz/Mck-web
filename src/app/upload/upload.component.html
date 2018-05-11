@@ -28,7 +28,7 @@
 						name="items"></ng-select>	
 					</div>
 
-					<div class="form-group mb-3">
+					<!-- <div class="form-group mb-3">
 						<label class="h3" for="players">球员</label>
 						<ng-select [items]="playersBuffer"
 						bindLabel="name"
@@ -40,6 +40,20 @@
 						[virtualScroll]="true"
 						[searchFn]="customSearchFn"
 						(scrollToEnd)="fetchMore($event)">
+						formControlName = "players"
+						name="players"></ng-select>
+					</div> -->
+					<div class="form-group mb-3">
+						<label class="h3" for="players">球员</label>
+						<ng-select [items]="players"
+						bindLabel="name"
+						bindValue="id"
+						[multiple]="true"
+						[loading]="loading"
+						[closeOnSelect]="true"
+						[hideSelected]="true"
+						[virtualScroll]="true"
+						[searchFn]="customSearchFn"
 						formControlName = "players"
 						name="players"></ng-select>
 					</div>
@@ -82,7 +96,7 @@
 						name="edition"></ng-select>
 					</div>
 
-					<button type="button" class="btn btn-danger btn-lg float-right" (click)="changeStep(2)">下一步</button>
+					<button type="button" class="btn btn-danger btn-lg float-right" (click)="changeStep(2)" [disabled]="stepOneDisabled">下一步</button>
 				</div>
 
 				<div *ngIf="step == 2">
@@ -189,14 +203,15 @@
 							<input type="text" class="h3 form-control" [formControl]="uploadForm.controls['price']"  name="price">
 						</div>
 					</div>
-
 					<button type="button" class="btn btn-link btn-lg float-left" (click)="changeStep(2)">上一步</button>
-					<button type="button" class="btn btn-danger btn-lg float-right" (click)="onSubmit()">完成</button>
+					<button type="button" class="btn btn-danger btn-lg float-right" (click)="onSubmit()" [disabled]="uploadForm.invalid">完成</button>
 				</div>
 			</form>
 		</div>
 		<div class="col-5">
-			<p>Form value: {{ uploadForm.value | json }}</p>
+		<!-- 	<p>Form value: {{ uploadForm.value | json }}</p>
+			<p>status: {{ uploadForm.status | json }}</p> -->
 		</div>
 	</div>
 </div>
+

@@ -14,7 +14,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 	styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-	private loginForm: FormGroup;
+	loginForm: FormGroup;
 
 	constructor(
 		private authService: AuthService,
@@ -32,14 +32,16 @@ export class LoginComponent implements OnInit {
 	}
 
 	login(){
-		this.authService.login(this.loginForm)
-		.subscribe(
-			() => {
-				if(this.authService.isLoggedIn){
-					this.router.navigate(['/dashboard']);
-				}
+		this.authService.getAccessToken(this.loginForm).subscribe(
+			response => {
+				localStorage.setItem('accessToken', response.access_token);
+				this.authService.isLoggedIn = true;
+				this.router.navigate(['/dashboard']);
+			},
+			error => {
+				console.log(error);
 			}
-			)
+			);
 	}
 
 	logout(){
@@ -55,16 +57,6 @@ export class LoginComponent implements OnInit {
 			},
 			error => console.log('Error ', error),
 			);
-		// this.authService.getUser()
-		// .subscribe(
-		// 	response => {
-		// 		this.router.navigate(['dashboard']);
-		// 		this.authService.isLoggedIn = true;
-		// 		console.log(response);
-
-		// 	},
-		// 	error => console.log('Error ', error),
-		// 	)
 	}
 
 	ngOnInit() {

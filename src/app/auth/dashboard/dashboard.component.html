@@ -1,14 +1,21 @@
 <div class="container">
-	<div class="row">
-		<div class="col-4">
-			
-		</div>
+	<div class="row justify-content-center">
 		<div class="col-8">
+			<div class="alert alert-warning" role="alert" *ngIf="user.status == 'pending'">
+				<h4 class="alert-heading">恭喜注册成功！</h4>
+				<p>请向mancavekeeper@gmail.com转账押金100元以激活您的账户，转账时请备注您的邮箱与用户名，押金将用于维持社区秩序并可以随时申请退还，了解更多请联系微信公众号mancavekeeper。
+				</p>
+			</div>
+			<div class="alert alert-danger" role="alert" *ngIf="user.status == 'inactivated'">
+				<h4 class="alert-heading">您的邮箱尚未验证</h4>
+				<p>我们向您的邮箱{{ user.email }}发送了一封确认邮件，请点击邮件中的链接进行验证。 </p>
+			</div>
 			<h2 class="mb-3">我的产品</h2>	
 			<div class="card mb-3" *ngFor="let product of products">
 				<div class="card-body media">
-					<img src="{{ product.product_image.thumbnail_front_path }}" alt="..." class="img-thumbnail align-self-start mr-3">
+					<img src="{{ product.front_image.thumbnail_path }}" alt="..." class="img-thumbnail align-self-start mr-3">
 					<div class="media-body">
+						<p *ngIf="product.status == 'pending'" class="badge badge-danger">审核中</p>
 						<h6>
 							<span *ngFor="let player of product.players">{{player.name}} </span>
 							<span>{{product.team.name}} </span>
@@ -31,7 +38,7 @@
 							<span *ngIf="product.quotedMethod == 'quoted' || product.quotedMethod == 'both'" class="badge badge-info">接受报价</span>
 						</p>
 						<button type="button" class="btn btn-primary">编辑</button>
-						<button type="button" class="btn btn-danger">删除</button>
+						<button type="button" class="btn btn-danger" (click)="delete(product)">删除</button>
 					</div>
 				</div>
 			</div>

@@ -4,6 +4,7 @@
 			<form [formGroup]="registerForm">
 				<p>value: {{ registerForm.value | json }}</p>
 				<p>status: {{ registerForm.status | json }}</p>
+				{{ test }}
 				<div class="form-group">
 					<label for="name">用户名</label>
 					<input type="name" class="form-control" [ngClass]="{'is-invalid': registerForm.controls['name'].invalid && registerForm.controls['name'].touched}" formControlName="name" required>

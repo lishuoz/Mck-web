@@ -7,8 +7,12 @@ import {
 	EmailValidator,
 	AbstractControl
 } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../shared/auth.service';
+import { MessageService } from '../../message.service';
+
+import { environment } from '../../../environments/environment';
 
 @Component({
 	selector: 'app-register',
@@ -17,10 +21,12 @@ import { AuthService } from '../shared/auth.service';
 })
 export class RegisterComponent implements OnInit {
 	registerForm: FormGroup;
-
+	test = environment.baseUrl;
 	constructor(
 		private authService: AuthService,
 		private fb: FormBuilder,
+		private messageService: MessageService,
+		private router: Router,
 		) {
 		this.createForm();
 	}
@@ -44,12 +50,25 @@ export class RegisterComponent implements OnInit {
 		}
 	}
 
-
 	register(){
-		console.log('clicked');
 		this.authService.register(this.registerForm).subscribe(
-			response => console.log(response),
-			error => console.log('错误', error.error.errors.email)
+			response => {
+				// this.router.navigate(['/']);
+				this.authService.getAccessToken(this.registerForm).subscribe(
+					response => {
+						localStorage.setItem('accessToken', response.access_token);
+						this.authService.isLoggedIn = true;
+						// this.router.navigate(['register/confirmation']);
+						this.router.navigate(['dashboard']);
+					},
+					error => {
+						console.log(error);
+					}
+					);
+			},
+			error =>  {
+				console.log(error);
+			}
 			);
 	}
 

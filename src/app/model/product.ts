@@ -25,6 +25,10 @@ export class Product {
   sizes?: Size[];
   items?: Item[];
   loas?: Loa[];
-  product_image?;
+  front_image?;
+  back_iamge?;
+  level_images?;
+  loa_images?;
+  other_images?;
 
 }

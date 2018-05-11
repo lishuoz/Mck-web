@@ -7,6 +7,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { Loa } from '../model/loa';
 
+import { environment } from '../../environments/environment';
+
 const httpOptions = {
 	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -14,7 +16,7 @@ const httpOptions = {
 @Injectable()
 export class LoaService {
 	 
-	 private loasUrl = 'http://localhost:8000/api/loas';  // URL to web api
+	 private loasUrl = environment.baseUrl+'/api/loas';  // URL to web api
 
 	 constructor(private http: HttpClient) { }
 

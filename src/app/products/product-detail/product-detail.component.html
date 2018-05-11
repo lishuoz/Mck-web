@@ -1,25 +1,79 @@
-<div class="container" *ngIf="product$ | async as product">
+<div class="container" *ngIf="product">
 	<div class="row">
 		<div class="col-6">
-			<img [src]="mainImage" width="480" alt="..." class="">
-			<img src="{{product.product_image.thumbnail_front_path}}" alt="..." class="img-thumbnail" (click)="changeMainImage(product.product_image.front_path)">
-			<img src="{{product.product_image.thumbnail_back_path}}" alt="..." class="img-thumbnail"
-			(click)="changeMainImage(product.product_image.back_path)">
-			<span *ngFor="let match_image of product.match_images">
-				<img src="{{match_image.thumbnail_path}}" alt="..." class="img-thumbnail">
+		<!-- 	<img [imageZoom]="mainImage" [src]="mainImage" 
+			[style.width.px]="480" [minZoomLevel]=.8
+			> -->
+			<ngx-image-zoom [thumbImage]=thumbImage
+			[fullImage]=fullImage [enableScrollZoom]=true
+			></ngx-image-zoom>
+			<img src="{{product.front_image.thumbnail_path}}" alt="..." class="p-1" (click)="changeMainImage(product.front_image)">
+			<img src="{{product.back_image.thumbnail_path}}" alt="..." class="p-1"
+			(click)="changeMainImage(product.back_image)">
+			<span *ngFor="let level_image of product.level_images">
+				<img src="{{level_image.thumbnail_path}}" alt="..." class="p-1"
+				(click)="changeMainImage(level_image)">
 			</span>
 			<span *ngFor="let loa_image of product.loa_images">
-				<img src="{{loa_image.thumbnail_path}}" alt="..." class="img-thumbnail">
+				<img src="{{loa_image.thumbnail_path}}" alt="..." class="p-1"
+				(click)="changeMainImage(loa_image)">
 			</span>
 			<span *ngFor="let other_image of product.other_images">
-				<img src="{{other_image.thumbnail_path}}" alt="..." class="img-thumbnail"
-				(click)="changeMainImage(other_image.path)">
+				<img src="{{other_image.thumbnail_path}}" alt="..." class="p-1"
+				(click)="changeMainImage(other_image)">
 			</span>
 		</div>
 		<div class="col-6">
-			
+			<h1 class="h3 mb-3">
+				<span *ngFor="let player of product.players">{{player.name}} </span>
+				<span>{{product.team.name}} </span>
+				<span *ngFor="let season of product.seasons">{{season.name}} </span>
+				<span>{{product.edition.name}} </span>
+				<span>{{product.level.name}} </span>
+				<span *ngFor="let size of product.sizes">{{size.name}} </span>
+				<span *ngFor="let item of product.items">{{item.name}} </span>
+				<span *ngFor="let loa of product.loas">{{loa.name}} </span>
+			</h1>
+			<div>
+				<p>发布者：{{ product.user.name }}</p>
+				<p>查看{{ product.user.name }}的其他产品</p>
+			</div>
+			<div class="row mb-3">
+				<div class="col">
+					<p>状态：
+						<span *ngIf="product.forSale == 1">出售中</span>
+						<span *ngIf="product.forSale == 0">收藏展示</span>
+					</p>
+					<p>赛季：
+						<span *ngFor="let season of product.seasons">{{season.name}} </span>
+					</p>
+					<p>球队：
+						<span>{{product.team.name}} </span>
+					</p>
+					<p>款式：
+						<span>{{product.edition.name}} </span>
+					</p>
+				</div>
+				<div class="col">
+					<p>尺码：
+						<span *ngFor="let size of product.sizes">{{size.name}} </span>
+					</p>
+					<p>等级：
+						<span>{{product.level.name}} </span>
+					</p>
+					<p>物品：
+						<span *ngFor="let item of product.items">{{item.name}} </span>
+					</p>
+					<p>证书：
+						<span *ngFor="let loa of product.loas">{{loa.name}} </span>
+					</p>
+				</div>
+			</div>
+			<button type="button" class="btn btn-primary mb-3" (click)="gotoProducts()">返回上一页</button>
+			<div class="mb-3 white-space">
+				<span>{{ product.description }}</span>
+			</div>
 		</div>
 
 	</div>
-	<button type="button" class="btn btn-primary" (click)="gotoProducts()">Go back</button>
 </div>

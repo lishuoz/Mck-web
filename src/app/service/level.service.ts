@@ -7,6 +7,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { Level } from '../model/level';
 
+import { environment } from '../../environments/environment';
+
 const httpOptions = {
 	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -14,7 +16,7 @@ const httpOptions = {
 @Injectable()
 export class LevelService {
 	 
-	 private levelsUrl = 'http://localhost:8000/api/levels';  // URL to web api
+	 private levelsUrl = environment.baseUrl+'/api/levels';  // URL to web api
 
 	 constructor(private http: HttpClient) { }
 

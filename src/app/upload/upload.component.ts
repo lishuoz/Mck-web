@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder} from '@angular/forms';
+import { Component, OnInit, TemplateRef} from '@angular/core';
+import { FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -16,6 +16,9 @@ import { Edition } from '../model/edition';
 import { Level } from '../model/level';
 import { Size } from '../model/size';
 import { Loa } from '../model/loa';
+
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
 	selector: 'app-upload',
@@ -35,29 +38,34 @@ export class UploadComponent implements OnInit {
 	private sizes: Size[];
 	private items: Item[];
 	private loas: Loa[];
-	private uploadForm: FormGroup;
-	private step: number = 1;
+	uploadForm: FormGroup;
+	step: number = 1;
 	private product: Product;
 	userId;
+
+	modalRef: BsModalRef;
+
+
 	constructor(
 		private uploadService: UploadService,
 		private fb: FormBuilder,
 		private router: Router,
 		private authService: AuthService,
+		private modalService: BsModalService,
 		) {
 		this.createForm();
 	}
 
 	createForm() {
 		this.uploadForm = this.fb.group ({
-			players: [''],
-			team: '',
-			items: [''],
-			seasons: [''],
-			edition: '',
-			level: '',
-			sizes: [''],
-			loas: [''],
+			players: ['', Validators.required],
+			team: ['', Validators.required],
+			items: ['', Validators.required],
+			seasons: ['', Validators.required],
+			edition: ['', Validators.required],
+			level: ['', Validators.required],
+			sizes: ['', Validators.required],
+			loas: ['', Validators.required],
 			note: '',
 			description: '',
 			forSale: 'false',
@@ -131,7 +139,7 @@ export class UploadComponent implements OnInit {
 			(product) => {
 				this.product = product;
 				this.uploadForm.reset();
-				this.router.navigate(['upload/'+this.product.id+'/images']);
+				this.router.navigate(['upload/'+this.product.id+'/product-images']);
 			},
 			error => console.log('Error ', error),
 			);
@@ -151,7 +159,6 @@ export class UploadComponent implements OnInit {
 
 
     ngOnInit() {
-
     	this.uploadService.getPlayers().subscribe(
     		players => {
     			this.players = players;
@@ -167,10 +174,12 @@ export class UploadComponent implements OnInit {
     	this.getLoas();
     	this.authService.getUser()
     	.subscribe(
-    		response => {
-    			this.userId = response.id;
+    		user => {
+    			console.log(user);
+    			this.userId = user.id;
     		}
-    		)
+    		);
+
     }
 
 }

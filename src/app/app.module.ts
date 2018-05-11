@@ -19,7 +19,7 @@ import { CarouselComponent } from './carousel/carousel.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { HomeComponent } from './home/home.component';
 
-// import { ModalModule } from 'ngx-bootstrap/modal';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { EditionService } from './service/edition.service';
 import { LevelService } from './service/level.service';
@@ -28,7 +28,8 @@ import { ItemService } from './service/item.service';
 import { LoaService } from './service/loa.service';
 import { UploadService } from './upload/shared/upload.service';
 import { AuthService } from './auth/shared/auth.service';
-
+import { MessagesComponent } from './messages/messages.component';
+import { MessageService } from './message.service';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { AuthService } from './auth/shared/auth.service';
   NavbarComponent,
   CarouselComponent,
   HomeComponent,
+  MessagesComponent,
   ],
   imports: [
   BrowserModule,
@@ -47,8 +49,7 @@ import { AuthService } from './auth/shared/auth.service';
   UploadModule,
   AuthModule,
   AppRoutingModule,
-
-  // ModalModule.forRoot(),
+  ModalModule.forRoot(),
   ],
   providers: [
   ProductService,
@@ -60,11 +61,11 @@ import { AuthService } from './auth/shared/auth.service';
   SizeService,
   ItemService,
   LoaService,
-  UploadService,,
+  UploadService,
   AuthService,
-
+  MessageService,
   ],
-  // entryComponents: [LoginComponent],
+  // entryComponents: [ MessageModalComponent ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

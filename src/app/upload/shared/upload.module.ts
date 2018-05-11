@@ -5,12 +5,15 @@ import { ReactiveFormsModule } from '@angular/forms';  // <-- #1 import module
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { UploadComponent }    from '../upload.component';
-import { UploadImagesComponent }  from '../upload-images/upload-images.component';
+import { UploadProductImagesComponent } from '../upload-product-images/upload-product-images.component';
+import { UploadOtherImagesComponent } from '../upload-other-images/upload-other-images.component';
+import { UploadAdditionalImagesComponent } from '../upload-additional-images/upload-additional-images.component';
 
 import { UploadService } from './upload.service';
 
 import { UploadRoutingModule } from './upload-routing.module';
 import { AuthGuard } from '../../auth/shared/auth-guard.service';
+import { CanDeactivateGuardService } from './can-deactivate-guard.service';
 
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
@@ -26,7 +29,6 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   addRemoveLinks: true,
   thumbnailWidth: 250,
   thumbnailHeight: 250,
-
 };
 
 @NgModule({
@@ -40,11 +42,15 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
 	],
 	declarations: [
 	UploadComponent,
-	UploadImagesComponent
+	UploadProductImagesComponent,
+	UploadOtherImagesComponent,
+	UploadAdditionalImagesComponent,
+	// MessageModalComponent
 	],
 	providers: [
 	UploadService,
 	AuthGuard,
+	CanDeactivateGuardService,
 	{
 		provide: DROPZONE_CONFIG,
 		useValue: DEFAULT_DROPZONE_CONFIG,

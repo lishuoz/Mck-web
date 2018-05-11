@@ -7,6 +7,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { Size } from '../model/size';
 
+import { environment } from '../../environments/environment';
+
 const httpOptions = {
 	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -14,7 +16,7 @@ const httpOptions = {
 @Injectable()
 export class SizeService {
 	 
-	 private sizesUrl = 'http://localhost:8000/api/sizes';  // URL to web api
+	 private sizesUrl = environment.baseUrl+'/api/sizes';  // URL to web api
 
 	 constructor(private http: HttpClient) { }
 

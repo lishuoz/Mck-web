@@ -17,13 +17,15 @@ import { Item } from '../../model/item';
 import { Loa } from '../../model/loa';
 import { Product } from '../../model/product';
 
+import { environment } from '../../../environments/environment';
+
 // const httpOptions = {
 // 	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 // };
 
 @Injectable()
 export class UploadService {
-	private baseUrl = 'http://localhost:8000/api/';
+	private baseUrl = environment.baseUrl+'/api/';
 	private playersUrl = this.baseUrl + 'players';
 	private teamsUrl = this.baseUrl + 'teams';
 	private itemsUrl = this.baseUrl + 'items'; 
@@ -68,5 +70,17 @@ export class UploadService {
 
 	addImages(image: FormData): Observable<any> {
 		return this.http.post(this.imagesUrl, image)
+	}
+
+	uploadProductImages(formData: FormData):Observable<any>{
+		return this.http.post(environment.baseUrl+'/api/product-images', formData);
+	}
+
+	uploadAdditionalImages(formData: FormData):Observable<any>{
+		return this.http.post(environment.baseUrl+'/api/additional-images', formData);
+	}
+
+	uploadOtherImages(formData: FormData):Observable<any>{
+		return this.http.post(environment.baseUrl+'/api/other-images', formData);
 	}
 }

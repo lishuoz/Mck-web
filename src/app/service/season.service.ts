@@ -7,13 +7,15 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { Season } from '../model/season';
 
+import { environment } from '../../environments/environment';
+
 const httpOptions = {
 	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable()
 export class SeasonService {
-	private seasonsUrl = 'http://localhost:8000/api/seasons';  // URL to web api
+	private seasonsUrl = environment.baseUrl+'/api/seasons';  // URL to web api
 
 	 constructor(private http: HttpClient) { }
 	getSeasons (): Observable<Season[]> {

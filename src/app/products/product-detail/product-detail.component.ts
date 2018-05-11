@@ -15,9 +15,10 @@ import { ProductService } from '../shared/product.service';
 	styleUrls: ['./product-detail.component.css']
 })
 export class ProductDetailComponent implements OnInit {
-	product$: Observable<Product>;
-	mainImage: string;
-	mainImageWidth: number = 400;
+	product: Product;
+	thumbImage: string;
+	fullImage: string;
+
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
@@ -25,27 +26,42 @@ export class ProductDetailComponent implements OnInit {
 		) { }
 
 	ngOnInit() {
-		this.product$ = this.route.paramMap
-		.switchMap(
-			(params: ParamMap) => 
-			this.productService.getProduct(+params.get('id')),
-			);
-		this.product$.subscribe(
+		// this.route.paramMap
+		// .switchMap(
+		// 	(params: ParamMap) => 
+		// 	this.productService.getProduct(+params.get('id')),
+		// 	);
+
+		let id = this.route.snapshot.paramMap.get('id');
+		this.productService.getProduct(+id).subscribe(
 			product => {
-				this.mainImage = product.product_image.front_path;
+				this.product = product;
+				this.thumbImage = product.front_image.medium_path;
+				this.fullImage = product.front_image.large_path;
 			}
 			);
+		// console.log(this.product);
+		
+		// this.product$.subscribe(
+		// 	product => {
+		// 		this.mainImage = product.product_image.front_path;
+		// 	}
+		// 	);
 
 	}
 
-	changeMainImage(imagePath){
+	changeMainImage(image){
+		console.log()
 		// console.log('image', image);
-		this.product$.subscribe(
-			product => {
-				// console.log(imagePath);
-				this.mainImage = imagePath;
-			}
-			);
+		// this.product$.subscribe(
+		// 	product => {
+		// 		// console.log(imagePath);
+		// 		this.mainImage = imagePath;
+		// 	}
+		// 	);
+		this.thumbImage = image.medium_path;
+		this.fullImage = image.large_path;
+
 		// this.mainImageWidth = 50;
 	}
 

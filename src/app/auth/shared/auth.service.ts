@@ -8,9 +8,14 @@ import { catchError, map, tap } 	from 'rxjs/operators';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
-import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
-// import { User } from '../../model/user'
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { retry } from 'rxjs/operators';
+
+import { environment } from '../../../environments/environment';
 
 const httpOptions = {
 	headers: new HttpHeaders({
@@ -20,35 +25,15 @@ const httpOptions = {
 
 @Injectable()
 export class AuthService {
-	private oauthUrl = "http://localhost:8000/oauth/token";
-	private userUrl = "http://localhost:8000/api/user";
+	private oauthUrl = environment.baseUrl+"/oauth/token";
+	private userUrl = environment.baseUrl+"/api/user";
 	isLoggedIn = false;
 	redirectUrl: string;
-
+	environmentName = environment.baseUrl;
 	constructor(
 		private http: HttpClient,
-		) {}
-
-	// isLoggedIn(): any{
-	// 	if( localStorage.getItem('accessToken') ){
-	// 		return true;
-	// 	}else{
-	// 		return false;
-	// 	}
-	// }
-
-	login(loginForm): Observable<boolean> {
-		return this.getAccessToken(loginForm).map(
-			response => {
-				localStorage.setItem('accessToken', response.access_token);
-				this.isLoggedIn = true;
-				return true;
-			},
-			error => {
-				return false
-			}
-			);
-		// return Observable.of(true).delay(1000).do(val => this.isLoggedIn = true);
+		) {
+		this.isLoggedIn = !(this.getUser() == Observable.of(false));
 	}
 
 	logout(): void {
@@ -66,7 +51,7 @@ export class AuthService {
 		let postData = {
 			grant_type: "password",
 			client_id: 2,
-			client_secret: "87hqJqTYfJb6j3zLt79KkgtxoJ9kGhSPuCzRFpsI",
+			client_secret: environment.client_secret,
 			username: loginForm.get('email').value,
 			password: loginForm.get('password').value,
 			scope: ""
@@ -88,7 +73,22 @@ export class AuthService {
 	}
 
 	register(registerForm): Observable<any>{
-		const registerUrl = "http://localhost:8000/api/register";
+		const registerUrl = environment.baseUrl+"/api/register";
 		return this.http.post(registerUrl, JSON.stringify(registerForm.value), httpOptions);
 	}
+
+	saveProfile(form): Observable<any>{
+		const profileUrl = environment.baseUrl+"/api/users/edit";
+		return this.http.post(profileUrl, JSON.stringify(form.value), httpOptions);
+	}
+
+	verifyAccount(token){
+		console.log(token);
+		const url = environment.baseUrl+"/api/users/verify";
+		let postData = {
+			token: token,
+		}
+		return this.http.post(url, JSON.stringify(postData), httpOptions);
+	}
+
 }
