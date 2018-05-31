@@ -1,7 +1,6 @@
 import { BrowserModule }       from '@angular/platform-browser';
 import { NgModule }            from '@angular/core';
 import { HttpClientModule }    from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';  // <-- #1 import module
 import { CommonModule }        from '@angular/common';
 import { FormsModule }         from '@angular/forms';
 import { ProductsModule }      from './products/shared/products.module';
@@ -30,6 +29,7 @@ import { UploadService } from './upload/shared/upload.service';
 import { AuthService } from './auth/shared/auth.service';
 import { MessagesComponent } from './messages/messages.component';
 import { MessageService } from './message.service';
+import { DeactivateModalComponent } from './shared/deactivate-modal/deactivate-modal.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +43,6 @@ import { MessageService } from './message.service';
   BrowserModule,
   CommonModule,
   HttpClientModule,
-  ReactiveFormsModule,
   FormsModule,
   ProductsModule,
   UploadModule,
@@ -65,7 +64,7 @@ import { MessageService } from './message.service';
   AuthService,
   MessageService,
   ],
-  // entryComponents: [ MessageModalComponent ],
+  entryComponents: [ DeactivateModalComponent ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,146 @@
+<div class="container" *ngIf="isLoading">
+	<h1>载入中，请稍后...</h1>
+</div>
+<div class="container" *ngIf="!isLoading">
+	<!-- <p>{{uploadForm.value | json }}</p>
+		<p>{{uploadForm.valid | json }}</p> -->
+		<div class="row justify-content-center">
+			<div class="col-6">
+				<h1>{{ pageTitle }}</h1>
+				<form [formGroup]="uploadForm">
+					<div class="form-group">
+						<div class="form-group">
+							<label for="players">球员</label>
+							<ng-select 
+							[items]="players"
+							bindLabel="name"
+							bindValue="id"
+							[multiple]="true"
+							[closeOnSelect]="true"
+							[hideSelected]="true"
+							[searchFn]="customSearch"
+							formControlName="players"></ng-select>
+						</div>
+
+						<div class="form-group">
+							<label for="seasons" [ngClass]="{'text-danger': uploadForm.get('seasons').invalid && uploadForm.get('seasons').touched }">赛季（必填）</label>
+							<ng-select [items]="seasons"
+							bindLabel="name"
+							bindValue="id"
+							[multiple]="true"
+							[closeOnSelect]="true"
+							[hideSelected]="true"
+							formControlName="seasons"></ng-select>
+							<div class="text-danger"
+							*ngIf="uploadForm.get('seasons').invalid && uploadForm.get('seasons').touched">
+							<small>赛季为必填项</small></div>
+						</div>
+
+						<div class="form-group">
+							<label for="team" [ngClass]="{'text-danger': uploadForm.get('team').invalid && uploadForm.get('team').touched }">球队（必填）</label>
+							<ng-select [items]="teams"
+							bindLabel="name"
+							bindValue="id"
+							[multiple]="false"
+							[closeOnSelect]="true"
+							[hideSelected]="true"
+							[searchFn]="customSearch"
+							formControlName="team"
+							></ng-select>
+							<div class="text-danger"
+							*ngIf="uploadForm.get('team').invalid && uploadForm.get('team').touched">
+							<small>球队为必填项</small></div>
+						</div>
+
+						<div class="form-group">
+							<label for="items" [ngClass]="{'text-danger': uploadForm.get('level').invalid && uploadForm.get('level').touched }">等级（必填）</label>
+							<ng-select [items]="levels"
+							bindLabel="name"
+							bindValue="id"
+							[closeOnSelect]="true"
+							[hideSelected]="true"
+							formControlName="level"
+							name="level"></ng-select>	
+							<div class="text-danger"
+							*ngIf="uploadForm.get('level').invalid && uploadForm.get('level').touched">
+							<small>等级为必填项</small></div>
+						</div>
+
+						<div class="form-group">
+							<label for="items" [ngClass]="{'text-danger': uploadForm.get('items').invalid && uploadForm.get('items').touched }">物品（必填）</label>
+							<ng-select [items]="items"
+							bindLabel="name"
+							bindValue="id"
+							[multiple]="true"
+							[closeOnSelect]="true"
+							[hideSelected]="true"
+							formControlName="items"></ng-select>	
+							<div class="text-danger"
+							*ngIf="uploadForm.get('items').invalid && uploadForm.get('items').touched">
+							<small>物品为必填项</small></div>
+						</div>
+
+						<div class="form-group">
+							<label for="edition" [ngClass]="{'text-danger': uploadForm.get('edition').invalid && uploadForm.get('edition').touched }">款式（必填）</label>
+							<ng-select [items]="editions"
+							bindLabel="name"
+							bindValue="id"
+							[closeOnSelect]="true"
+							[hideSelected]="true"
+							formControlName="edition"></ng-select>
+							<div class="text-danger"
+							*ngIf="uploadForm.get('edition').invalid && uploadForm.get('edition').touched">
+							<small>款式为必填项</small></div>
+						</div>
+
+						<div class="form-group">
+							<label for="items">证书（不含证书请留空）</label>
+							<ng-select [items]="loas"
+							bindLabel="name"
+							bindValue="id"
+							[multiple]="true"
+							[closeOnSelect]="true"
+							[hideSelected]="true"
+							formControlName="loas"></ng-select>	
+						</div>
+
+						<div class="form-group">
+							<label for="items" [ngClass]="{'text-danger': uploadForm.get('sizes').invalid && uploadForm.get('sizes').touched }">尺寸（必填）</label>
+							<ng-select [items]="sizes"
+							bindLabel="name"
+							bindValue="id"
+							[multiple]="true"
+							[closeOnSelect]="true"
+							[hideSelected]="true"
+							formControlName="sizes"
+							name="sizes"></ng-select>
+							<div class="text-danger"
+							*ngIf="uploadForm.get('sizes').invalid && uploadForm.get('sizes').touched">
+							<small>尺寸为必填项</small></div>
+						</div>
+
+						<div class="form-group">
+							<label for="note" [ngClass]="{'text-danger': uploadForm.get('note').invalid && uploadForm.get('note').touched }">特别注明（限制15个汉字）</label>
+							<input type="text" class="form-control" placeholder="例如：Tipoff、里程碑、媒体日等特殊事件" formControlName="note" name="note">
+							<div class="text-danger"
+							*ngIf="uploadForm.get('note').invalid && uploadForm.get('note').touched">
+							<small>特别注明最多15个汉字</small></div>
+						</div>
+
+						<div class="form-group">
+							<label for="description">描述</label>
+							<textarea class="form-control" name="description" formControlName="description" rows="3"></textarea>
+						</div>
+
+						<div class="float-left">
+							<button type="button" class="btn btn-outline-danger btn-lg float-left" routerLink="/dashboard" [disabled]="">取消上传</button>
+						</div>
+						<div class="float-right">
+							<button *ngIf="isEdit" type="button" class="btn btn-danger btn-lg float-right" (click)="onEdit()" [disabled]="uploadForm.invalid">编辑完成</button>
+							<button *ngIf="!isEdit" type="button" class="btn btn-danger btn-lg float-right" (click)="onSubmit()" [disabled]="uploadForm.invalid">下一步：销售状态</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>

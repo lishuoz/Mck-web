@@ -35,8 +35,12 @@ export class LoginComponent implements OnInit {
 		this.authService.getAccessToken(this.loginForm).subscribe(
 			response => {
 				localStorage.setItem('accessToken', response.access_token);
-				this.authService.isLoggedIn = true;
-				this.router.navigate(['/dashboard']);
+				this.authService.getUser().subscribe(
+					user => {
+						this.authService.user = Object.assign({}, this.authService.user, user);
+						this.authService.isLoggedIn = true;
+						this.router.navigate(['/dashboard']);
+					})
 			},
 			error => {
 				console.log(error);
@@ -47,16 +51,6 @@ export class LoginComponent implements OnInit {
 	logout(){
 		this.authService.logout();
 		this.router.navigate(['/']);
-	}
-
-	onSubmit(){
-		this.authService.getAccessToken(this.loginForm)
-		.subscribe(
-			response => {
-				localStorage.setItem('accessToken', response.access_token);
-			},
-			error => console.log('Error ', error),
-			);
 	}
 
 	ngOnInit() {

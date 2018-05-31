@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 // import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { LoginComponent } from '../auth/login/login.component';
 
+import { User } 			from '../model/user';
+
 import { AuthService }		from '../auth/shared/auth.service';
 
 @Component({
@@ -13,10 +15,11 @@ import { AuthService }		from '../auth/shared/auth.service';
 export class NavbarComponent implements OnInit {
 	constructor(
 		public authService: AuthService,
-		) {}
+
+		) {
+	}
 
 	ngOnInit(){
-
 	}
 
 }

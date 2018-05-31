@@ -45,7 +45,6 @@ export class UploadComponent implements OnInit {
 
 	modalRef: BsModalRef;
 
-
 	constructor(
 		private uploadService: UploadService,
 		private fb: FormBuilder,
@@ -53,31 +52,49 @@ export class UploadComponent implements OnInit {
 		private authService: AuthService,
 		private modalService: BsModalService,
 		) {
+		this.getPlayers();
+		this.getTeams();
+		this.getItems();
+		this.getSeasons();
+		this.getEditions();
+		this.getLevels();
+		this.getSizes();
+		this.getLoas();
+		this.authService.getUser()
+		.subscribe(
+			user => {
+				this.userId = user.id;
+			}
+			);
 		this.createForm();
 	}
 
 	createForm() {
 		this.uploadForm = this.fb.group ({
-			players: ['', Validators.required],
+			players: [''],
 			team: ['', Validators.required],
 			items: ['', Validators.required],
 			seasons: ['', Validators.required],
 			edition: ['', Validators.required],
 			level: ['', Validators.required],
 			sizes: ['', Validators.required],
-			loas: ['', Validators.required],
+			loas: [''],
 			note: '',
 			description: '',
 			forSale: 'false',
 			tradeMethod: '',
-			quoteMethod: '',
+			quotedMethod: '',
 			price: '',
 			userId: '',
 		});
 	}
-	// getPlayers(): void {
-	// 	this.uploadService.getPlayers().subscribe(players => this.players = players)
-	// }
+	getPlayers(): void {
+		this.uploadService.getPlayers().subscribe(
+			players => {
+				this.players = players;
+				this.playersBuffer = this.players.slice(0, this.bufferSize);
+			});
+	}
 	getTeams(): void {
 		this.uploadService.getTeams().subscribe(teams => this.teams = teams)
 	}
@@ -100,7 +117,15 @@ export class UploadComponent implements OnInit {
 		this.uploadService.getLoas().subscribe(loas => this.loas = loas)
 	}
 
-	customSearchFn(term: string, item: Player) {
+	customSearchPlayers(term: string, item: Player) {
+		term = term.toLocaleLowerCase();
+		return item.name_us.toLocaleLowerCase().indexOf(term) > -1 
+		|| item.name_us.toLocaleLowerCase() === term
+		|| item.name.toLocaleLowerCase().indexOf(term) > -1 
+		|| item.name.toLocaleLowerCase() === term
+	}
+
+	customSearchTeams(term: string, item: Team) {
 		term = term.toLocaleLowerCase();
 		return item.name_us.toLocaleLowerCase().indexOf(term) > -1 
 		|| item.name_us.toLocaleLowerCase() === term
@@ -117,7 +142,7 @@ export class UploadComponent implements OnInit {
 		if($event.target.value == "false"){
 			this.uploadForm.patchValue({
 				tradeMethod: '',
-				quoteMethod: '',
+				quotedMethod: '',
 				price: ''
 			});
 		}
@@ -143,7 +168,7 @@ export class UploadComponent implements OnInit {
 			},
 			error => console.log('Error ', error),
 			);
-		
+
 	}
 
 	fetchMore() {
@@ -159,26 +184,7 @@ export class UploadComponent implements OnInit {
 
 
     ngOnInit() {
-    	this.uploadService.getPlayers().subscribe(
-    		players => {
-    			this.players = players;
-    			this.playersBuffer = this.players.slice(0, this.bufferSize);
-    		}
-    		);
-    	this.getTeams();
-    	this.getItems();
-    	this.getSeasons();
-    	this.getEditions();
-    	this.getLevels();
-    	this.getSizes();
-    	this.getLoas();
-    	this.authService.getUser()
-    	.subscribe(
-    		user => {
-    			console.log(user);
-    			this.userId = user.id;
-    		}
-    		);
+    	
 
     }
 

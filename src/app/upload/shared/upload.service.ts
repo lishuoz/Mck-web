@@ -36,12 +36,14 @@ export class UploadService {
 	private loasUrl = this.baseUrl + "loas";
 	private productsUrl = this.baseUrl + "products";
 	private imagesUrl = this.baseUrl + "images";
+	cancelUpload: boolean = false;
 
 	constructor(private http: HttpClient) { }
 
 	getPlayers (): Observable<Player[]> {
 		return this.http.get<Player[]>(this.playersUrl);
 	}
+	
 	getTeams (): Observable<Team[]> {
 		return this.http.get<Team[]>(this.teamsUrl);
 	}

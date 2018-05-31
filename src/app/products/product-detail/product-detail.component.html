@@ -5,7 +5,7 @@
 			[style.width.px]="480" [minZoomLevel]=.8
 			> -->
 			<ngx-image-zoom [thumbImage]=thumbImage
-			[fullImage]=fullImage [enableScrollZoom]=true
+			[fullImage]=fullImage
 			></ngx-image-zoom>
 			<img src="{{product.front_image.thumbnail_path}}" alt="..." class="p-1" (click)="changeMainImage(product.front_image)">
 			<img src="{{product.back_image.thumbnail_path}}" alt="..." class="p-1"

@@ -6,5 +6,8 @@
 export const environment = {
 	production: false,
 	baseUrl: 'http://localhost:8000',
-	client_secret: 'GhBxQbY8KxsOJpnVa7F7IpfhRfTSzn9uPd7dczhp',
+	client_secret: 'NbXvJbzZlkcMIWsDxN2L6lmeal8tQZT4bN7w78Nx',
+	// baseUrl: 'http://159.65.9.8',
+	// client_secret: 'pi8KVYqzAuNfPsSaNvjxG4JEkHQnsuE5LFASRRRy',
+
 };

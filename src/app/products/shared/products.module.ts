@@ -1,33 +1,42 @@
-import { NgModule }       from '@angular/core';
-import { CommonModule }   from '@angular/common';
-import { FormsModule }    from '@angular/forms';
+import { NgModule }       			from '@angular/core';
+import { SharedModule }				from '../../shared/shared.module';
 
 import { ProductsComponent }		from '../products.component';
-import { ProductListComponent }    from '../product-list/product-list.component';
-import { ProductDetailComponent }  from '../product-detail/product-detail.component';
+import { ProductListComponent }    	from '../product-list/product-list.component';
+import { ProductDetailComponent }  	from '../product-detail/product-detail.component';
+import { ProductUploadComponent }	from '../product-upload/product-upload.component';
+import { SaleStatusComponent } 		from '../product-upload/sale-status/sale-status.component';
+import { UploadImagesComponent } 	from '../product-upload/upload-images/upload-images.component';
 
-import { ProductService } from './product.service';
+import { ProductService } 			from './product.service';
 
-import { ProductRoutingModule } from './products-routing.module';
+import { ProductRoutingModule } 	from './products-routing.module';
 
-import { NgxImageZoomModule } from 'ngx-image-zoom';
-import {ImageZoomModule} from 'angular2-image-zoom';
-
+import { NgxImageZoomModule } 		from 'ngx-image-zoom';
+import { ImageZoomModule } 			from 'angular2-image-zoom';
+import { DropzoneModule } 			from 'ngx-dropzone-wrapper';
+import { ProductImageService } from './product-image.service';
+// import { DROPZONE_CONFIG } 			from 'ngx-dropzone-wrapper';
 
 @NgModule({
 	imports: [
-		CommonModule,
-		FormsModule,
-		ProductRoutingModule,
-		ImageZoomModule,
-		NgxImageZoomModule.forRoot()
+	SharedModule,
+	ProductRoutingModule,
+	ImageZoomModule,
+	NgxImageZoomModule.forRoot(),
+	DropzoneModule,
 	],
 	declarations: [
-		ProductsComponent,
-		ProductListComponent,
-		ProductDetailComponent
+	ProductsComponent,
+	ProductListComponent,
+	ProductDetailComponent,
+	ProductUploadComponent,
+	SaleStatusComponent,
+	UploadImagesComponent
 	],
-	providers: [ ProductService ],
+	providers: [ 
+	ProductService, ProductImageService,
+	],
 })
 
 export class ProductsModule {}

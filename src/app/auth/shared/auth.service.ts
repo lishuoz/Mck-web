@@ -30,6 +30,7 @@ export class AuthService {
 	isLoggedIn = false;
 	redirectUrl: string;
 	environmentName = environment.baseUrl;
+	user;
 	constructor(
 		private http: HttpClient,
 		) {
@@ -72,6 +73,19 @@ export class AuthService {
 		return Observable.of(false);
 	}
 
+	get(): Observable<User>{
+		if(localStorage.getItem('accessToken') !== null){
+			const httpOptions = {
+				headers: new HttpHeaders({
+					'Accept': 'application/json',
+					'Authorization': 'Bearer '+ localStorage.getItem('accessToken'),
+				})
+			};
+			return this.http.get<User>(this.userUrl, httpOptions);
+		}
+		return Observable.of(null);
+	}
+
 	register(registerForm): Observable<any>{
 		const registerUrl = environment.baseUrl+"/api/register";
 		return this.http.post(registerUrl, JSON.stringify(registerForm.value), httpOptions);
@@ -83,7 +97,6 @@ export class AuthService {
 	}
 
 	verifyAccount(token){
-		console.log(token);
 		const url = environment.baseUrl+"/api/users/verify";
 		let postData = {
 			token: token,

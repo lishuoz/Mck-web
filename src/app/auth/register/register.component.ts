@@ -53,11 +53,14 @@ export class RegisterComponent implements OnInit {
 	register(){
 		this.authService.register(this.registerForm).subscribe(
 			response => {
-				// this.router.navigate(['/']);
 				this.authService.getAccessToken(this.registerForm).subscribe(
 					response => {
 						localStorage.setItem('accessToken', response.access_token);
-						this.authService.isLoggedIn = true;
+						this.authService.getUser().subscribe(
+							user => {
+								this.authService.user = user;
+								this.authService.isLoggedIn = true;
+							});
 						// this.router.navigate(['register/confirmation']);
 						this.router.navigate(['dashboard']);
 					},

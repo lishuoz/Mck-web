@@ -16,7 +16,7 @@
 
 				<div *ngIf="step == 1">
 					<div class="form-group mb-3">
-						<label class="h3" for="items">物品</label>
+						<label class="h3" for="items">物品（必填）</label>
 						<ng-select [items]="items"
 						bindLabel="name"
 						bindValue="id"
@@ -53,26 +53,27 @@
 						[closeOnSelect]="true"
 						[hideSelected]="true"
 						[virtualScroll]="true"
-						[searchFn]="customSearchFn"
+						[searchFn]="customSearchPlayers"
 						formControlName = "players"
 						name="players"></ng-select>
 					</div>
 
 					<div class="form-group mb-3">
-						<label class="h3" for="team">球队</label>
+						<label class="h3" for="team">球队（必填）</label>
 						<ng-select [items]="teams"
 						bindLabel="name"
 						bindValue="id"
 						[multiple]="false"
 						[closeOnSelect]="true"
 						[hideSelected]="true"
-						[typeahead]="name"
+						[virtualScroll]="true"
+						[searchFn]="customSearchTeams"
 						formControlName="team"
 						name="team"></ng-select>
 					</div>
 
 					<div class="form-group mb-3">
-						<label class="h3" for="seasons">赛季</label>
+						<label class="h3" for="seasons">赛季（必填）</label>
 						<ng-select [items]="seasons"
 						bindLabel="name"
 						bindValue="id"
@@ -85,7 +86,7 @@
 					</div>
 
 					<div class="form-group mb-3">
-						<label class="h3" for="edition">款式</label>
+						<label class="h3" for="edition">款式（必填）</label>
 						<ng-select [items]="editions"
 						bindLabel="name"
 						bindValue="id"
@@ -101,7 +102,7 @@
 
 				<div *ngIf="step == 2">
 					<div class="form-group mb-3">
-						<label class="h3" for="items">等级</label>
+						<label class="h3" for="items">等级（必填）</label>
 						<ng-select [items]="levels"
 						bindLabel="name"
 						bindValue="id"
@@ -113,7 +114,7 @@
 					</div>
 
 					<div class="form-group mb-3">
-						<label class="h3" for="items">尺寸</label>
+						<label class="h3" for="items">尺寸（必填）</label>
 						<ng-select [items]="sizes"
 						bindLabel="name"
 						bindValue="id"
@@ -185,20 +186,20 @@
 						<div class="form-group">
 							<label class="h5" for="price">接受报价方式</label>
 							<div class="form-check">
-								<input class="form-check-input" type="radio" name="quotedMethod" value="fixed" [formControl]="uploadForm.controls['quoteMethod']">
+								<input class="form-check-input" type="radio" name="quotedMethod" value="fixed" [formControl]="uploadForm.controls['quotedMethod']">
 								<label class="h3 form-check-label" for="quotedMethod">一口价</label>
 							</div>
 							<div class="form-check">
-								<input class="form-check-input" type="radio" name="quotedMethod" value="quoted" [formControl]="uploadForm.controls['quoteMethod']" (change)="handleQuoteMethodChange($event)">
+								<input class="form-check-input" type="radio" name="quotedMethod" value="quoted" [formControl]="uploadForm.controls['quotedMethod']" (change)="handleQuoteMethodChange($event)">
 								<label class="h3 form-check-label" for="quotedMethod" >仅接受报价</label>
 							</div>
 							<div class="form-check">
-								<input class="form-check-input" type="radio" name="quotedMethod" value="both" [formControl]="uploadForm.controls['quoteMethod']">
+								<input class="form-check-input" type="radio" name="quotedMethod" value="both" [formControl]="uploadForm.controls['quotedMethod']">
 								<label class="h3 form-check-label" for="quotedMethod">两者都支持</label>
 							</div>
 						</div>
 
-						<div class="form-group" *ngIf="uploadForm.controls['quoteMethod'].value == 'fixed' || uploadForm.controls['quoteMethod'].value == 'both'">
+						<div class="form-group" *ngIf="uploadForm.controls['quotedMethod'].value == 'fixed' || uploadForm.controls['quotedMethod'].value == 'both'">
 							<label class="h5 text-muted" for="price">价格</label>
 							<input type="text" class="h3 form-control" [formControl]="uploadForm.controls['price']"  name="price">
 						</div>

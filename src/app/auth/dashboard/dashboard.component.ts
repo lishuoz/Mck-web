@@ -7,6 +7,8 @@ import { User }					from '../../model/user';
 import { ProductService } 		from '../../products/shared/product.service';
 
 import { AuthService }			from '../shared/auth.service';
+// import { AuthStore }			from '../shared/auth.store';
+
 @Component({
 	selector: 'app-dashboard',
 	templateUrl: './dashboard.component.html',
@@ -17,10 +19,9 @@ export class DashboardComponent implements OnInit {
 	products: Product[];
 	constructor(
 		private productService: ProductService,
+		// private authStore: AuthStore,
 		private authService: AuthService,
-		// private messageService: MessageService,
-		) {
-	}
+		) {}
 
 	ngOnInit() {
 		this.authService.getUser().subscribe(
@@ -31,9 +32,10 @@ export class DashboardComponent implements OnInit {
 					response => {
 						this.products = response
 					},
-					error => console.log(error),
+					error => console.log('dashboard userproduct error', error),
 					)
-			}
+			},
+			error => console.log('dashboard getuser error', error)
 			);
 	}
 
@@ -41,7 +43,7 @@ export class DashboardComponent implements OnInit {
 		this.products = this.products.filter(p => p !== product);
 		this.productService.deleteProduct(product).subscribe();
 	}
-
+	
 	
 
 }

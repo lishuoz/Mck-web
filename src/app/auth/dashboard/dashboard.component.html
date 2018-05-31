@@ -1,19 +1,28 @@
 <div class="container">
 	<div class="row justify-content-center">
 		<div class="col-8">
-			<div class="alert alert-warning" role="alert" *ngIf="user.status == 'pending'">
-				<h4 class="alert-heading">恭喜注册成功！</h4>
-				<p>请向mancavekeeper@gmail.com转账押金100元以激活您的账户，转账时请备注您的邮箱与用户名，押金将用于维持社区秩序并可以随时申请退还，了解更多请联系微信公众号mancavekeeper。
-				</p>
+			<div *ngIf="user">
+				<div class="alert alert-warning" role="alert" *ngIf="user.status == 'pending'">
+					<h4 class="alert-heading">恭喜注册成功！</h4>
+					<p>请向mancavekeeper@gmail.com转账押金100元以激活您的账户，转账时请备注您的邮箱与用户名，押金将用于维持社区秩序并可以随时申请退还，了解更多请联系微信公众号mancavekeeper。
+					</p>
+				</div>
+				<div class="alert alert-danger" role="alert" *ngIf="user.status == 'inactivated'">
+					<h4 class="alert-heading">您的邮箱尚未验证</h4>
+					<p>我们向您的邮箱{{ user.email }}发送了一封确认邮件，请点击邮件中的链接进行验证。 </p>
+				</div>
 			</div>
-			<div class="alert alert-danger" role="alert" *ngIf="user.status == 'inactivated'">
-				<h4 class="alert-heading">您的邮箱尚未验证</h4>
-				<p>我们向您的邮箱{{ user.email }}发送了一封确认邮件，请点击邮件中的链接进行验证。 </p>
-			</div>
-			<h2 class="mb-3">我的产品</h2>	
+
+			<h2 class="mb-3">我的产品</h2>
+			<!-- <p>{{ authService.user }}</p>	 -->
 			<div class="card mb-3" *ngFor="let product of products">
 				<div class="card-body media">
-					<img src="{{ product.front_image.thumbnail_path }}" alt="..." class="img-thumbnail align-self-start mr-3">
+					<span *ngIf="product.front_image">
+						<img src="{{ product.front_image.thumbnail_path }}" alt="..." class="img-thumbnail align-self-start mr-3">
+					</span>
+					<span *ngIf="!product.front_image">
+						<img src="http://via.placeholder.com/100x100" alt="..." class="img-thumbnail align-self-start mr-3">
+					</span>
 					<div class="media-body">
 						<p *ngIf="product.status == 'pending'" class="badge badge-danger">审核中</p>
 						<h6>
@@ -30,14 +39,15 @@
 							{{ product.price | currency:'¥ '}} 
 						</p>
 						<p>
-							<span *ngIf="product.forSale == 1" class="badge badge-danger">出售中</span>
-							<span *ngIf="product.forSale == 0" class="badge badge-danger">收藏展示</span>
+							<span *ngIf="product.forSale == 'true'" class="badge badge-danger">出售中</span>
+							<span *ngIf="product.forSale == 'sold'" class="badge badge-danger">已售出</span>
+							<span *ngIf="product.forSale == 'false'" class="badge badge-danger">收藏展示</span>
 							<span *ngIf="product.tradeMethod == 'platform' || product.tradeMethod == 'both'" class="badge badge-warning">支持平台担保交易</span>
 							<span *ngIf="product.tradeMethod == 'private' || product.tradeMethod == 'both'" class="badge badge-warning">支持私下交易</span>
 							<span *ngIf="product.quotedMethod == 'fixed' || product.quotedMethod == 'both'" class="badge badge-info">接受一口价</span>
 							<span *ngIf="product.quotedMethod == 'quoted' || product.quotedMethod == 'both'" class="badge badge-info">接受报价</span>
 						</p>
-						<button type="button" class="btn btn-primary">编辑</button>
+						<button type="button" class="btn btn-primary" [routerLink]="['/products/upload/', product.id]">编辑</button>
 						<button type="button" class="btn btn-danger" (click)="delete(product)">删除</button>
 					</div>
 				</div>

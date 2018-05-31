@@ -8,6 +8,9 @@ import { Product } from '../../model/product';
 import { ProductService } from '../../products/shared/product.service';
 import { UploadService } from '../shared/upload.service';
 
+import { DeactivateModalComponent } from '../../shared/deactivate-modal/deactivate-modal.component';
+
+
 @Component({
 	selector: 'app-upload-additional-images',
 	templateUrl: './upload-additional-images.component.html',
@@ -56,6 +59,17 @@ export class UploadAdditionalImagesComponent implements OnInit {
 		return this.levelImages.length || this.loaImages.length;
 	}
 
+	canDeactivate() {
+		if(!this.isLoading){
+			var doCancel = window.confirm('是否放弃上传？点击“是”将删除之前上传的内容');
+			if(doCancel){
+				this.productService.deleteProduct(+this.route.snapshot.params.id).subscribe();	
+			}
+			return doCancel;
+		}
+		return true;
+	}
+
 	uploadAdditionalImages(){
 		this.isLoading = true;
 		this.formData.append('id', this.route.snapshot.params.id);
@@ -68,7 +82,6 @@ export class UploadAdditionalImagesComponent implements OnInit {
 		this.uploadService.uploadAdditionalImages(this.formData).subscribe(
 			product => {
 				this.router.navigate(['upload/'+product.id+'/other-images']);
-				console.log(product);
 			},
 			);
 	}

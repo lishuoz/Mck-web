@@ -8,6 +8,8 @@ import { Product } from '../../model/product';
 import { ProductService } from '../../products/shared/product.service';
 import { UploadService } from '../shared/upload.service';
 
+import { DeactivateModalComponent } from '../../shared/deactivate-modal/deactivate-modal.component';
+
 @Component({
 	selector: 'app-upload-other-images',
 	templateUrl: './upload-other-images.component.html',
@@ -38,7 +40,7 @@ export class UploadOtherImagesComponent implements OnInit {
 		this.otherImages.push(file);
 	}
 
-	onLevelRemovedFile($event){
+	onOtherRemovedFile($event){
 		this.otherImages.splice(this.otherImages.indexOf($event), 1);
 	}
 
@@ -60,6 +62,17 @@ export class UploadOtherImagesComponent implements OnInit {
 			);
 	}
 
+	canDeactivate() {
+		if(!this.isLoading){
+			var doCancel = window.confirm('是否放弃上传？点击“是”将删除之前上传的内容');
+			if(doCancel){
+				this.productService.deleteProduct(+this.route.snapshot.params.id).subscribe();	
+			}
+			return doCancel;
+		}
+		return true;
+	}
+	
 	ngOnInit() {
 		this.product$ = this.route.paramMap
 		.switchMap((params: ParamMap) =>

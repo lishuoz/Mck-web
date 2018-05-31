@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormControl, FormGroup, FormBuilder} from '@angular/forms';
@@ -7,6 +7,12 @@ import { Product } from '../../model/product';
 
 import { ProductService } from '../../products/shared/product.service';
 import { UploadService } from '../shared/upload.service';
+
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+
+import { DeactivateModalComponent } from '../../shared/deactivate-modal/deactivate-modal.component';
+
 @Component({
 	selector: 'app-upload-product-images',
 	templateUrl: './upload-product-images.component.html',
@@ -16,6 +22,7 @@ export class UploadProductImagesComponent implements OnInit {
 	product$: Observable<Product>;
 	formData = new FormData();
 	isLoading: boolean = false;
+	bsModalRef: BsModalRef;
 	private singleConfig = {
 		maxFiles: 1,
 		maxFilesize: 5, // MB
@@ -27,6 +34,7 @@ export class UploadProductImagesComponent implements OnInit {
 		private productService: ProductService,
 		private uploadService: UploadService,
 		private router: Router,
+		private modalService: BsModalService,
 		) {
 	}
 
@@ -64,7 +72,19 @@ export class UploadProductImagesComponent implements OnInit {
 			},
 			);
 	}
-	
+
+	canDeactivate() {
+		if(!this.isLoading){
+			var doCancel = window.confirm('是否放弃上传？点击“是”将删除之前上传的内容');
+			if(doCancel){
+				this.productService.deleteProduct(+this.route.snapshot.params.id).subscribe();	
+			}
+			return doCancel;
+		}
+		return true;
+	}
+
+
 	ngOnInit() {
 		this.product$ = this.route.paramMap
 		.switchMap((params: ParamMap) =>

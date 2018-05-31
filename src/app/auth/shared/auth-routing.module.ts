@@ -11,9 +11,9 @@ const authRoutes: Routes = [
 { path: 'login', component: LoginComponent },
 { path: 'register', component: RegisterComponent },
 { path: 'register/confirmation', component: RegisterConfirmComponent },
-{ path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] }  
+{ path: 'dashboard', component: DashboardComponent,  canActivate: [AuthGuard]}  
 ];
-
+// canActivate: [AuthGuard]
 @NgModule({
   imports: [
   RouterModule.forChild(authRoutes)

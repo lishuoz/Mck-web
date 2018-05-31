@@ -48,7 +48,7 @@
     </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/upload" routerLinkActive="active">上传产品</a>
+        <a class="nav-link" [routerLink]="['/products/upload', '0']" routerLinkActive="active">上传产品</a>
       </li>
       <li class="nav-item" *ngIf="!authService.isLoggedIn">
         <a class="nav-link" routerLink="/login" routerLinkActive="active">登陆</a>

@@ -10,7 +10,7 @@ import { RegisterConfirmComponent } from  '../register/register-confirm/register
 import { AuthRoutingModule } 	from './auth-routing.module';
 
 import { AuthService } 			from './auth.service';
-
+// import { AuthStore }			from './auth.store';
 @NgModule({
 	imports: [
 	CommonModule,
@@ -24,7 +24,8 @@ import { AuthService } 			from './auth.service';
 	RegisterConfirmComponent
 	],
 	providers:[
-	AuthService
+	AuthService,
+	// AuthStore
 	],
 })
 export class AuthModule { }
