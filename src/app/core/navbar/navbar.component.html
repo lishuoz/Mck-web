@@ -1,0 +1,75 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">{{title}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+       <!-- <li class="nav-item dropdown active">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          MCK首页
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">致各位用户</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          所有物品
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">最新上传</a>
+          <a class="dropdown-item" href="#">出售中</a>
+          <a class="dropdown-item" href="#">收藏展示</a>
+        </div>
+      </li> -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/products" routerLinkActive="active">所有产品</a>
+      </li>
+      <!-- <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          规章制度
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">用户指南</a>
+          <a class="dropdown-item" href="#">提交仲裁</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          联系我们
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">成为用户</a>
+        </div>
+      </li> -->
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/products/upload', '0']" routerLinkActive="active">上传产品</a>
+      </li>
+      <li class="nav-item" *ngIf="!authService.isLoggedIn">
+        <a class="nav-link" routerLink="/login" routerLinkActive="active">登陆</a>
+      </li>
+      <li class="nav-item" *ngIf="!authService.isLoggedIn">
+        <a class="nav-link" routerLink="/register" routerLinkActive="active">注册</a>
+      </li>
+      <li class="nav-item" *ngIf="authService.isLoggedIn">
+        <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">我的账户</a>
+      </li>
+      <li class="nav-item" *ngIf="authService.isLoggedIn">
+        <a class="nav-link" routerLink="/" (click)="authService.logout()">退出登录</a>
+      </li>
+      
+    </ul>
+    <!-- <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form> -->
+  </div>
+</div>
+</nav>
+
+

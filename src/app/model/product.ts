@@ -7,10 +7,12 @@ import { Size }        from './size';
 import { Item }        from './item';
 import { Loa }         from './loa';
 import { SaleStatus }  from './saleStatus';
+import { User } from './user';
 
 export class Product {
   id?: number;
-  user?: string;
+  user?: User;
+  status?: string;
   players?: Player[];
   team?: Team;
   seasons?: Season[];
@@ -23,9 +25,8 @@ export class Product {
   description?: string;
   sale_status?: SaleStatus;
   front_image?;
-  back_iamge?;
+  back_image?;
   level_images?;
   loa_images?;
   other_images?;
-
 }

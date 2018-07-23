@@ -19,7 +19,7 @@ export class SaleStatusComponent implements OnInit {
 	private sub: Subscription;
 	// private product: Product;
 	private productId: number;
-
+	isEdit: boolean = false;
 	constructor(
 		private fb: FormBuilder,
 		private router: Router,
@@ -46,6 +46,7 @@ export class SaleStatusComponent implements OnInit {
 				this.productService.getProduct(this.productId).subscribe(
 					product => {
 						if (product.sale_status) {
+							this.isEdit = true;
 							this.saleStatusForm.patchValue({
 								productId: this.productId,
 								forSale: product.sale_status.forSale,
@@ -53,8 +54,7 @@ export class SaleStatusComponent implements OnInit {
 								quotedMethod: product.sale_status.quotedMethod,
 								price: product.sale_status.price
 							})
-						}
-						
+						}	
 					},
 					error => console.log(error)
 					);
@@ -108,6 +108,17 @@ export class SaleStatusComponent implements OnInit {
 	onBack(){
 		// console.log('/products/upload/', this.productId)
 		this.router.navigate(['/products/upload/', this.productId]);
+	}
+
+	onEdit(){
+		this.saleStatusForm.patchValue({'productId': this.productId});
+		let saleStatus = Object.assign({},this.saleStatus,this.saleStatusForm.value);
+		this.productService.editSaleStatus(saleStatus).subscribe(
+			response => {
+				this.router.navigate(['dashboard']);
+			},
+			error => console.log(error)
+			);
 	}
 
 	onSubmit(){

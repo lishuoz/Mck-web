@@ -1,29 +1,30 @@
-import { NgModule }             from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard }            from './auth-guard.service';
-import { AuthService }          from './auth.service';
-import { LoginComponent }       from '../login/login.component';
-import { RegisterComponent }       from '../register/register.component';
-import { DashboardComponent }   from '../dashboard/dashboard.component';
-import { RegisterConfirmComponent } from  '../register/register-confirm/register-confirm.component';
+
+import { LoginComponent } from '../login/login.component';
+import { RegisterComponent } from '../register/register.component';
+import { DashboardComponent } from '../dashboard/dashboard.component';
+import { AuthGuard } from '../../shared/auth-guard.service';
 
 const authRoutes: Routes = [
-{ path: 'login', component: LoginComponent },
-{ path: 'register', component: RegisterComponent },
-{ path: 'register/confirmation', component: RegisterConfirmComponent },
-{ path: 'dashboard', component: DashboardComponent,  canActivate: [AuthGuard]}  
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { 
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
+  }
 ];
 // canActivate: [AuthGuard]
 @NgModule({
   imports: [
-  RouterModule.forChild(authRoutes)
+    RouterModule.forChild(authRoutes)
   ],
   exports: [
-  RouterModule
+    RouterModule
   ],
   providers: [
-  AuthGuard,
-  AuthService
+    AuthGuard,
   ]
 })
-export class AuthRoutingModule {}
+export class AuthRoutingModule { }

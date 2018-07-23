@@ -1,5 +1,6 @@
 import { NgModule }       			from '@angular/core';
 import { SharedModule }				from '../../shared/shared.module';
+import { NgSelectModule } 			from '@ng-select/ng-select';
 
 import { ProductsComponent }		from '../products.component';
 import { ProductListComponent }    	from '../product-list/product-list.component';
@@ -13,29 +14,37 @@ import { ProductService } 			from './product.service';
 import { ProductRoutingModule } 	from './products-routing.module';
 
 import { NgxImageZoomModule } 		from 'ngx-image-zoom';
-import { ImageZoomModule } 			from 'angular2-image-zoom';
 import { DropzoneModule } 			from 'ngx-dropzone-wrapper';
-import { ProductImageService } from './product-image.service';
+import { ProductItemComponent } from '../product-item/product-item.component';
+import { PreviewComponent } from '../product-upload/preview/preview.component';
+import { ProductUploadGuard } from '../../shared/product-upload-guard.service';
+import { IncompleteProductGuardService } from '../../shared/incomplete-product-guard.service';
+
 // import { DROPZONE_CONFIG } 			from 'ngx-dropzone-wrapper';
 
 @NgModule({
 	imports: [
-	SharedModule,
-	ProductRoutingModule,
-	ImageZoomModule,
-	NgxImageZoomModule.forRoot(),
-	DropzoneModule,
+		SharedModule,
+		NgxImageZoomModule.forRoot(),
+		DropzoneModule,
+		NgSelectModule,
+		ProductRoutingModule
 	],
 	declarations: [
-	ProductsComponent,
-	ProductListComponent,
-	ProductDetailComponent,
-	ProductUploadComponent,
-	SaleStatusComponent,
-	UploadImagesComponent
+		ProductsComponent,
+		ProductListComponent,
+		ProductDetailComponent,
+		ProductUploadComponent,
+		SaleStatusComponent,
+		UploadImagesComponent,
+		ProductItemComponent,
+		PreviewComponent
+	],
+	exports:[
+		ProductItemComponent,
 	],
 	providers: [ 
-	ProductService, ProductImageService,
+		ProductService, ProductUploadGuard, IncompleteProductGuardService,
 	],
 })
 

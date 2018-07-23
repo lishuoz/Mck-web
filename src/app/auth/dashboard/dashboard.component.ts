@@ -1,13 +1,11 @@
-import { Component, OnInit } 	from '@angular/core';
-import { Observable } 			from 'rxjs/Observable';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
-import { Product } 				from '../../model/product';
-import { User }					from '../../model/user';
+import { Product } from '../../model/product';
 
-import { ProductService } 		from '../../products/shared/product.service';
+import { ProductService } from '../../products/shared/product.service';
 
-import { AuthService }			from '../shared/auth.service';
-// import { AuthStore }			from '../shared/auth.store';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
 	selector: 'app-dashboard',
@@ -15,35 +13,42 @@ import { AuthService }			from '../shared/auth.service';
 	styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-	user: User;
 	products: Product[];
+	
 	constructor(
 		private productService: ProductService,
-		// private authStore: AuthStore,
 		private authService: AuthService,
-		) {}
+	) { }
 
 	ngOnInit() {
-		this.authService.getUser().subscribe(
-			user => {
-				this.user = user;
-				this.productService.getUserProducts(user.id)
-				.subscribe(
-					response => {
-						this.products = response
-					},
-					error => console.log('dashboard userproduct error', error),
-					)
-			},
-			error => console.log('dashboard getuser error', error)
-			);
+		this.productService.getUserProducts(this.authService.user.id).subscribe(
+			products => this.products = products
+		)
 	}
 
-	delete(product){
+	delete(product: Product): void {
 		this.products = this.products.filter(p => p !== product);
 		this.productService.deleteProduct(product).subscribe();
 	}
-	
-	
 
+
+	checkCompletion(product: Product): boolean {
+		// console.log(product);
+		if (product.sale_status.status != 'complete') {
+			return false;
+		}
+		if (product.level.id == 1 || product.level.id == 6 || product.level.id == 8) {
+			if (product.loas.length) {
+				return (product.front_image && product.back_image && product.level_images && product.loa_images);
+			} else {
+				return (product.front_image && product.back_image && product.level_images);
+			}
+		} else {
+			if (product.loas.length) {
+				return (product.front_image && product.back_image && product.loa_images);
+			} else {
+				return (product.front_image && product.back_image);
+			}
+		}
+	}
 }

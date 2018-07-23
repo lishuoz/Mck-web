@@ -45,6 +45,11 @@ export class ProductService {
 		return this.http.post(url, saleStatus);
 	}
 
+	editSaleStatus(saleStatus: SaleStatus): Observable<any> {
+		const url = this.baseUrl + 'products/sale-status';
+		return this.http.put(url, saleStatus);
+	}
+
 	deleteFrontImage(id: number): Observable<Product> {
 		const url = this.baseUrl + 'front-image/' + id;
 		return this.http.delete<Product>(url);
@@ -73,6 +78,12 @@ export class ProductService {
 	updateProduct(product: Product | number): Observable<Product>{
 		const id = typeof product === 'number' ? product : product.id;
 		const url = this.baseUrl + `products/${id}`;
+		return this.http.patch(url, product);
+	}
+
+	updateProductStatus(product: Product | number): Observable<any>{
+		const id = typeof product === 'number' ? product : product.id;
+		const url = this.baseUrl + `products/status/${id}`;
 		return this.http.patch(url, product);
 	}
 

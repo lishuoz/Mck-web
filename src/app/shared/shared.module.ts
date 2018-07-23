@@ -1,21 +1,25 @@
-import { NgModule }       			from '@angular/core';
-import { CommonModule }   			from '@angular/common';
-import { 
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+import {
 	FormsModule,
 	ReactiveFormsModule
-}    								from '@angular/forms';
+} from '@angular/forms';
 
-import { NgSelectModule } from '@ng-select/ng-select';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 
-import { SharedService } from './shared.service';
-import { environment }		from '../../environments/environment';
+import { environment } from '../../environments/environment';
+import { ProductTradeMethodPipe } from './pipes/product-trade-method.pipe';
+import { ProductStatusPipe } from './pipes/product-status.pipe';
+import { ProductSaleStatusPipe } from './pipes/product-sale-status.pipe';
+import { ProductQuotedMethodPipe } from './pipes/product-quoted-method';
 
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
-	url: environment.baseUrl+"/api/upload-image",
+	url: environment.baseUrl + "/api/upload-image",
 	acceptedFiles: "image/*",
 	dictRemoveFile: "删除文件",
 	dictDefaultMessage: '',
@@ -26,22 +30,30 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
 
 @NgModule({
 	imports: [
-	CommonModule,
+		CommonModule,
 	],
-	declarations: [],
+	declarations: [
+		ProductTradeMethodPipe,
+		ProductStatusPipe,
+		ProductSaleStatusPipe,
+		ProductQuotedMethodPipe
+	],
 	exports: [
-	CommonModule,
-	FormsModule,
-	ReactiveFormsModule,
-	NgSelectModule
+		CommonModule,
+		FormsModule,
+		RouterModule,
+		ReactiveFormsModule,
+		ProductTradeMethodPipe,
+		ProductStatusPipe,
+		ProductSaleStatusPipe,
+		ProductQuotedMethodPipe
 	],
 	providers: [
-	SharedService,
-	{
-		provide: DROPZONE_CONFIG,
-		useValue: DEFAULT_DROPZONE_CONFIG,
-	}
+		{
+			provide: DROPZONE_CONFIG,
+			useValue: DEFAULT_DROPZONE_CONFIG,
+		}
 	]
 })
 
-export class SharedModule {}
+export class SharedModule { }

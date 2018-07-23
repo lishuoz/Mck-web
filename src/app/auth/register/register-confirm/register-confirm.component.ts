@@ -13,20 +13,9 @@ export class RegisterConfirmComponent implements OnInit {
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
-		private authService: AuthService,
 		) { }
 
 	ngOnInit() {
-		this.route.queryParamMap
-		.subscribe(
-			params => {
-				if(params.get('token')){
-					this.authService.verifyAccount(params.get('token')).subscribe(
-						response => this.router.navigate(['dashboard']),
-						);
-				}
-			}
-			);
 	}
 
 }

@@ -1,27 +1,7 @@
 <div class="container mt-5">
 	<div class="row">
-		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 mt-4" *ngFor="let product of products$ | async">
-			<div class="card">
-				<img class="card-img-top" src="{{product.front_image.small_path}}" alt="Card image cap">
-				<div class="card-body">
-					<h5 class="card-title">
-						<a [routerLink]="['/products', product.id]">
-							<span *ngFor="let player of product.players">{{player.name}} </span>
-							<span>{{product.team.name}} </span>
-							<span *ngFor="let season of product.seasons">{{season.name}} </span>
-							<span>{{product.edition.name}} </span>
-							<span>{{product.level.name}} </span>
-							<span *ngFor="let size of product.sizes">{{size.name}} </span>
-							<span *ngFor="let item of product.items">{{item.name}} </span>
-							<span *ngFor="let loa of product.loas">{{loa.name}} </span>
-						</a>
-					</h5>
-					<div class="card-text">
-						<p>发布者：{{ product.user.name}} </p>
-						<p>{{ product.price | currency:'¥ ' }} </p>						
-					</div>
-				</div>
-			</div>
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 mt-4" *ngFor="let product of products">
+			<app-product-item [product]="product"></app-product-item>
 		</div>
 	</div>
 </div>

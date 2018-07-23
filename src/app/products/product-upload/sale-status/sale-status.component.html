@@ -1,80 +1,81 @@
 <div class="container ">
-	<p>{{saleStatusForm.value | json }}</p>
-		<p>{{saleStatusForm.valid | json }}</p>
-		
-		<div class="row justify-content-center">
-			<div class="col-6">
-				<h1>销售状态</h1>
-				<form [formGroup]="saleStatusForm">
-					<div class="form-group">
-						<label for="forSale">是否出售</label>
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="forSale" value="forSale" formControlName="forSale" (change)="handleforSaleChange($event)">
-							<label class="form-check-label" for="forSale">出售</label>
-						</div>
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="forSale" value="sold" formControlName="forSale" (change)="handleforSaleChange($event)">
-							<label class="form-check-label" for="forSale">已售出</label>
-						</div>
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="forSale" value="notForSale" formControlName="forSale" (change)="handleforSaleChange($event)">
-							<label class="form-check-label" for="forSale">不出售，仅收藏展示</label>
-						</div>
-					</div>
+	<!-- <p>{{saleStatusForm.value | json }}</p>
+	<p>{{saleStatusForm.valid | json }}</p> -->
 
-					<div class="form-group">
-						<label for="price">选择出售方式</label>
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="tradeMethod" value="platform" formControlName="tradeMethod">
-							<label class="form-check-label" for="tradeMethod">支持平台担保交易</label>
-						</div>
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="tradeMethod" value="private" formControlName="tradeMethod">
-							<label class="form-check-label" for="tradeMethod">支持私下交易</label>
-						</div>
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="tradeMethod" value="both" formControlName="tradeMethod">
-							<label class="form-check-label" for="tradeMethod">两者都支持</label>
-						</div>
+	<div class="row justify-content-center">
+		<div class="col-6">
+			<h1>销售状态</h1>
+			<form [formGroup]="saleStatusForm">
+				<div class="form-group">
+					<label for="forSale">是否出售</label>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="forSale" value="forSale" formControlName="forSale" (change)="handleforSaleChange($event)">
+						<label class="form-check-label" for="forSale">出售</label>
 					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="forSale" value="sold" formControlName="forSale" (change)="handleforSaleChange($event)">
+						<label class="form-check-label" for="forSale">已售出</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="forSale" value="notForSale" formControlName="forSale" (change)="handleforSaleChange($event)">
+						<label class="form-check-label" for="forSale">不出售，仅收藏展示</label>
+					</div>
+				</div>
 
-					<div class="form-group">
-						<label for="price">接受报价方式</label>
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="quotedMethod" value="fixed" formControlName="quotedMethod" (change)="handleQuotedMethodChange($event)">
-							<label class="form-check-label" for="quotedMethod">一口价</label>
-						</div>
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="quotedMethod" value="quoted" formControlName="quotedMethod" (change)="handleQuotedMethodChange($event)">
-							<label class="form-check-label" for="quotedMethod" >仅接受报价</label>
-						</div>
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="quotedMethod" value="both" formControlName="quotedMethod" (change)="handleQuotedMethodChange($event)">
-							<label class="form-check-label" for="quotedMethod">两者都支持</label>
-						</div>
+				<div class="form-group" *ngIf="saleStatusForm.get('forSale').value == 'forSale'">
+					<label for="price">选择出售方式</label>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="tradeMethod" value="platform" formControlName="tradeMethod">
+						<label class="form-check-label" for="tradeMethod">支持平台担保交易</label>
 					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="tradeMethod" value="private" formControlName="tradeMethod">
+						<label class="form-check-label" for="tradeMethod">支持私下交易</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="tradeMethod" value="both" formControlName="tradeMethod">
+						<label class="form-check-label" for="tradeMethod">两者都支持</label>
+					</div>
+				</div>
 
-					<div class="form-group">
-						<label for="price" [ngClass]="{'text-danger': saleStatusForm.get('price').invalid && saleStatusForm.get('price').touched }">价格</label>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">¥</span>
-							</div>
-							<input type="text" class="form-control" formControlName="price"  name="price">
-						</div>
-						<div *ngIf="saleStatusForm.get('price').hasError('pattern') && saleStatusForm.get('price').touched" class="text-danger">
-							价格不能为负数或者其他字符
-						</div>
-						<div *ngIf="saleStatusForm.get('price').hasError('required') && saleStatusForm.get('price').touched" class="text-danger">
-							请输入价格
-						</div>
-						<div *ngIf="saleStatusForm.get('price').hasError('min') && saleStatusForm.get('price').touched" class="text-danger">
-							价格不能为负数
-						</div>
-						<div *ngIf="saleStatusForm.get('price').hasError('max') && saleStatusForm.get('price').touched" class="text-danger">
-							请输入0-999999区间的数字
-						</div>
+				<div class="form-group" *ngIf="saleStatusForm.get('tradeMethod').value != null">
+					<label for="price">接受报价方式</label>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="quotedMethod" value="fixed" formControlName="quotedMethod" (change)="handleQuotedMethodChange($event)">
+						<label class="form-check-label" for="quotedMethod">一口价</label>
 					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="quotedMethod" value="quoted" formControlName="quotedMethod" (change)="handleQuotedMethodChange($event)">
+						<label class="form-check-label" for="quotedMethod" >仅接受报价</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="quotedMethod" value="both" formControlName="quotedMethod" (change)="handleQuotedMethodChange($event)">
+						<label class="form-check-label" for="quotedMethod">两者都支持</label>
+					</div>
+				</div>
+
+				<div class="form-group" *ngIf="saleStatusForm.get('forSale').value == 'forSale' && saleStatusForm.get('quotedMethod').value != 'quoted' && saleStatusForm.get('quotedMethod').value != null">
+					<label for="price" [ngClass]="{'text-danger': saleStatusForm.get('price').invalid && saleStatusForm.get('price').touched }">价格</label>
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">¥</span>
+						</div>
+						<input type="text" class="form-control" formControlName="price"  name="price">
+					</div>
+					<div *ngIf="saleStatusForm.get('price').hasError('pattern') && saleStatusForm.get('price').touched" class="text-danger">
+						价格不能为负数或者其他字符
+					</div>
+					<div *ngIf="saleStatusForm.get('price').hasError('required') && saleStatusForm.get('price').touched" class="text-danger">
+						请输入价格
+					</div>
+					<div *ngIf="saleStatusForm.get('price').hasError('min') && saleStatusForm.get('price').touched" class="text-danger">
+						价格不能为负数
+					</div>
+					<div *ngIf="saleStatusForm.get('price').hasError('max') && saleStatusForm.get('price').touched" class="text-danger">
+						请输入0-999999区间的数字
+					</div>
+				</div>
+				<div *ngIf="!isEdit">
 					<div class="float-left">
 						<button type="button" class="btn btn-outline-danger btn-lg float-left" (click)="onBack()">上一步</button>
 					</div>
@@ -82,7 +83,16 @@
 						<button type="button" class="btn btn-link btn-lg" (click)="onLater()">稍后再说</button>
 						<button type="button" class="btn btn-danger btn-lg" (click)="onSubmit()" [disabled]="saleStatusForm.invalid">完成</button>
 					</div>
-				</form>
-			</div>
+				</div>
+				<div *ngIf="isEdit">
+					<div class="float-left">
+						<button type="button" class="btn btn-outline-danger btn-lg float-left" routerLink="/dashboard" [disabled]="">取消</button>
+					</div>
+					<div class="float-right">
+						<button type="button" class="btn btn-danger btn-lg" (click)="onEdit()" [disabled]="saleStatusForm.invalid">编辑完成</button>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
+</div>

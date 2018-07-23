@@ -14,40 +14,42 @@
 			</div>
 
 			<h2 class="mb-3">我的产品</h2>
-			<!-- <p>{{ authService.user }}</p>	 -->
 			<div class="card mb-3" *ngFor="let product of products">
 				<div class="card-body media">
-					<span *ngIf="product.front_image">
-						<img src="{{ product.front_image.thumbnail_path }}" alt="..." class="img-thumbnail align-self-start mr-3">
-					</span>
-					<span *ngIf="!product.front_image">
-						<img src="http://via.placeholder.com/100x100" alt="..." class="img-thumbnail align-self-start mr-3">
-					</span>
+					<figure class="figure text-center mr-3">
+						<span *ngIf="product.front_image">
+							<img src="{{ product.front_image.thumbnail_path }}" alt="..." class="img-thumbnail align-self-start">
+						</span>
+						<span *ngIf="!product.front_image">
+							<img src="http://via.placeholder.com/100x100" alt="..." class="img-thumbnail align-self-start">
+						</span>
+						<figcaption class="figure-caption">
+							<button type="button" class="btn btn-link btn-sm" [routerLink]="['/products/upload/', product.id, 'images']">编辑图片</button>
+						</figcaption>
+					</figure>
 					<div class="media-body">
-						<p *ngIf="product.status == 'pending'" class="badge badge-danger">审核中</p>
+						<p class="badge badge-danger mr-1">{{ product.status | productStatus }}</p>
 						<h6>
 							<span *ngFor="let player of product.players">{{player.name}} </span>
-							<span>{{product.team.name}} </span>
 							<span *ngFor="let season of product.seasons">{{season.name}} </span>
-							<span>{{product.edition.name}} </span>
+							<span>{{product.team.name}} </span>
 							<span>{{product.level.name}} </span>
-							<span *ngFor="let size of product.sizes">{{size.name}} </span>
 							<span *ngFor="let item of product.items">{{item.name}} </span>
 							<span *ngFor="let loa of product.loas">{{loa.name}} </span>
+							<span *ngIf="product.note">{{product.note}}</span>
+							<a class="btn btn-link btn-sm" href="#" role="button" [routerLink]="['/products/upload/', product.id]">编辑基本信息</a>
 						</h6>
 						<p>
-							{{ product.price | currency:'¥ '}} 
+							<span class="badge badge-primary badge-pill mr-1">{{ product.sale_status.forSale | productSaleStatus }}</span>
+							<span *ngIf="product.sale_status.price" class="badge badge-pill badge-primary mr-1">{{ product.sale_status.price | currency:'¥ '}} </span>
+							<span *ngIf="product.sale_status.tradeMethod" class="badge badge-warning mr-1">{{product.sale_status.tradeMethod | productTradeMethod }}</span>
+							<span *ngIf="product.sale_status.quotedMethod" class="badge badge-info mr-1">{{product.sale_status.quotedMethod | productQuotedMethod }}</span>
+							<a class="btn btn-link btn-sm" href="#" role="button" [routerLink]="['/products/upload/', product.id, 'sale-status']">编辑出售状态</a>
 						</p>
-						<p>
-							<span *ngIf="product.forSale == 'true'" class="badge badge-danger">出售中</span>
-							<span *ngIf="product.forSale == 'sold'" class="badge badge-danger">已售出</span>
-							<span *ngIf="product.forSale == 'false'" class="badge badge-danger">收藏展示</span>
-							<span *ngIf="product.tradeMethod == 'platform' || product.tradeMethod == 'both'" class="badge badge-warning">支持平台担保交易</span>
-							<span *ngIf="product.tradeMethod == 'private' || product.tradeMethod == 'both'" class="badge badge-warning">支持私下交易</span>
-							<span *ngIf="product.quotedMethod == 'fixed' || product.quotedMethod == 'both'" class="badge badge-info">接受一口价</span>
-							<span *ngIf="product.quotedMethod == 'quoted' || product.quotedMethod == 'both'" class="badge badge-info">接受报价</span>
-						</p>
-						<button type="button" class="btn btn-primary" [routerLink]="['/products/upload/', product.id]">编辑</button>
+						<button *ngIf="product.status == 'unverified' || product.status == 'rejected'" [disabled]="!checkCompletion(product)" type="button"
+						 class="btn btn-primary" [routerLink]="['/products/upload/', product.id, 'preview']">
+							预览并发布
+						</button>
 						<button type="button" class="btn btn-danger" (click)="delete(product)">删除</button>
 					</div>
 				</div>

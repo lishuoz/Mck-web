@@ -55,8 +55,40 @@
 			</div>
 		</div>
 
-		<!-- 上传匹配照片 -->
+		<!-- 上传其他照片 -->
 		<div class="col-8 text-center mb-5">
+			<div class="form-group">
+				<h2 class="mb-3">
+					其他图片（选填）
+					<small class="h6">（还可传{{ otherConfig.maxFiles }}张）</small>
+				</h2>
+				<figure class="figure" *ngIf="product.other_images.length">
+					<ul class="list-inline">
+						<li class="list-inline-item mb-2" *ngFor="let other_image of product.other_images">
+							<img class="img-thumbnail" [src]="other_image.thumbnail_path" />
+							<figcaption class="figure-caption text-center">
+								<button class="btn btn-outline-danger mt-2" (click)="deleteOtherImage(other_image.name)" [disabled]="deletingOther == other_image.name">
+									<span *ngIf="deletingOther != other_image.name">删除图片</span>
+									<span *ngIf="deletingOther == other_image.name">删除中</span>
+									<span *ngIf="deletingOther == other_image.name">
+										<i class="fas fa-spinner fa-spin"></i>
+									</span>
+								</button>
+							</figcaption>
+						</li>
+					</ul>
+				</figure>
+				<div *ngIf="product.other_images.length < otherMaxFiles" class="dropzone text-center" [dropzone]="otherConfig" (queueComplete)="getProduct()">
+					<div class="dz-message" data-dz-message>
+						<button type="button" class="btn btn-danger btn-lg ">点击上传<strong>其他</strong>照片</button>
+						<div class="mt-3">或者把图片拖进框内</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 上传匹配照片 -->
+		<div class="col-8 text-center mb-5" *ngIf="showLevel">
 			<div class="form-group">
 				<h2 class="mb-3">
 					图片匹配
@@ -88,7 +120,7 @@
 		</div>
 
 		<!-- 上传证书照片 -->
-		<div class="col-8 text-center mb-5">
+		<div class="col-8 text-center mb-5" *ngIf="showLoa">
 			<div class="form-group">
 				<h2 class="mb-3">
 					证书图片
@@ -119,45 +151,13 @@
 			</div>
 		</div>
 
-		<!-- 上传其他照片 -->
-		<div class="col-8 text-center mb-5">
-			<div class="form-group">
-				<h2 class="mb-3">
-					其他图片
-					<small class="h6">（还可传{{ otherConfig.maxFiles }}张）</small>
-				</h2>
-				<figure class="figure" *ngIf="product.other_images.length">
-					<ul class="list-inline">
-						<li class="list-inline-item mb-2" *ngFor="let other_image of product.other_images">
-							<img class="img-thumbnail" [src]="other_image.thumbnail_path" />
-							<figcaption class="figure-caption text-center">
-								<button class="btn btn-outline-danger mt-2" (click)="deleteOtherImage(other_image.name)" [disabled]="deletingOther == other_image.name">
-									<span *ngIf="deletingOther != other_image.name">删除图片</span>
-									<span *ngIf="deletingOther == other_image.name">删除中</span>
-									<span *ngIf="deletingOther == other_image.name">
-										<i class="fas fa-spinner fa-spin"></i>
-									</span>
-								</button>
-							</figcaption>
-						</li>
-					</ul>
-				</figure>
-				<div *ngIf="product.other_images.length < otherMaxFiles" class="dropzone text-center" [dropzone]="otherConfig" (queueComplete)="getProduct()">
-					<div class="dz-message" data-dz-message>
-						<button type="button" class="btn btn-danger btn-lg ">点击上传<strong>其他</strong>照片</button>
-						<div class="mt-3">或者把图片拖进框内</div>
-					</div>
-				</div>
+		<div class="col-8">
+			<div class="float-left">
+				<button type="button" class="btn btn-outline-danger btn-lg float-left" routerLink="/dashboard" [disabled]="">稍后再说</button>
+			</div>
+			<div class="float-right">
+				<button type="button" class="btn btn-danger btn-lg" routerLink="/dashboard">完成</button>
 			</div>
 		</div>
-
 	</div>
-	<div class="float-left">
-		<button type="button" class="btn btn-outline-danger btn-lg float-left" routerLink="/products/upload/{{product.id}}/sale-status" [disabled]="">上一步</button>
-	</div>
-	<div class="float-right">
-		<button type="button" class="btn btn-link btn-lg" routerLink="/dashboard">稍后再说</button>
-		<button type="button" class="btn btn-danger btn-lg" routerLink="/dashboard" [disabled]="">完成</button>
-	</div>
-
 </div>

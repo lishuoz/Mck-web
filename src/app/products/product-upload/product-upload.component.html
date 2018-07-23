@@ -128,12 +128,15 @@
 						</div>
 
 						<div class="form-group">
-							<label for="description">描述</label>
+							<label for="description" [ngClass]="{'text-danger': uploadForm.get('description').invalid && uploadForm.get('description').touched }">描述</label>
 							<textarea class="form-control" name="description" formControlName="description" rows="3"></textarea>
+							<div class="text-danger"
+							*ngIf="uploadForm.get('description').invalid && uploadForm.get('description').touched">
+							<small>描述最多1000个汉字</small></div>
 						</div>
 
 						<div class="float-left">
-							<button type="button" class="btn btn-outline-danger btn-lg float-left" routerLink="/dashboard" [disabled]="">取消上传</button>
+							<button type="button" class="btn btn-outline-danger btn-lg float-left" routerLink="/dashboard" [disabled]="">取消</button>
 						</div>
 						<div class="float-right">
 							<button *ngIf="isEdit" type="button" class="btn btn-danger btn-lg float-right" (click)="onEdit()" [disabled]="uploadForm.invalid">编辑完成</button>

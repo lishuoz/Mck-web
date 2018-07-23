@@ -5,4 +5,5 @@ export class SaleStatus {
 	tradeMethod: string;
 	quotedMethod: string;
 	price: number;
+	status: string;
 }

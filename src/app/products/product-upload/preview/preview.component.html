@@ -1,20 +1,30 @@
 <div class="container" *ngIf="product">
 	<div class="row">
-		<div class="col-6">
+		<div class="col-md-12 col-lg-6">
 			<ngx-image-zoom [thumbImage]=thumbImage [fullImage]=fullImage></ngx-image-zoom>
-			<img src="{{product.front_image.thumbnail_path}}" alt="..." class="p-1" (click)="changeMainImage(product.front_image)">
-			<img src="{{product.back_image.thumbnail_path}}" alt="..." class="p-1" (click)="changeMainImage(product.back_image)">
-			<span *ngFor="let other_image of product.other_images">
-				<img src="{{other_image.thumbnail_path}}" alt="..." class="p-1" (click)="changeMainImage(other_image)">
+			<span *ngIf="product.front_image">
+				<img src="{{product.front_image.thumbnail_path}}" alt="..." class="p-1" (click)="changeMainImage(product.front_image)">
 			</span>
-			<span *ngFor="let level_image of product.level_images">
-				<img src="{{level_image.thumbnail_path}}" alt="..." class="p-1" (click)="changeMainImage(level_image)">
+			<span *ngIf="product.back_image">
+				<img *ngIf="product.back_image" src="{{product.back_image.thumbnail_path}}" alt="..." class="p-1" (click)="changeMainImage(product.back_image)">
 			</span>
-			<span *ngFor="let loa_image of product.loa_images">
-				<img src="{{loa_image.thumbnail_path}}" alt="..." class="p-1" (click)="changeMainImage(loa_image)">
+			<span *ngIf="product.other_images">
+				<span *ngFor="let other_image of product.other_images">
+					<img src="{{other_image.thumbnail_path}}" alt="..." class="p-1" (click)="changeMainImage(other_image)">
+				</span>
+			</span>
+			<span *ngIf="product.level_images">
+				<span *ngFor="let level_image of product.level_images">
+					<img src="{{level_image.thumbnail_path}}" alt="..." class="p-1" (click)="changeMainImage(level_image)">
+				</span>
+			</span>
+			<span *ngIf="product.loa_images">
+				<span *ngFor="let loa_image of product.loa_images">
+					<img src="{{loa_image.thumbnail_path}}" alt="..." class="p-1" (click)="changeMainImage(loa_image)">
+				</span>
 			</span>
 		</div>
-		<div class="col-6">
+		<div class="col-md-12 col-lg-6">
 			<h1 class="h3 mb-3">
 				<span *ngFor="let player of product.players">{{player.name}} </span>
 				<span>{{product.team.name}} </span>
@@ -25,18 +35,16 @@
 				<span *ngFor="let item of product.items">{{item.name}} </span>
 				<span *ngFor="let loa of product.loas">{{loa.name}} </span>
 			</h1>
-			<div class="mb-3">
-				<span class="badge badge-primary badge-pill mr-1">{{ product.sale_status.forSale | productSaleStatus }}</span>
-				<span *ngIf="product.sale_status.price" class="badge badge-pill badge-primary mr-1">{{ product.sale_status.price | currency:'¥ '}} </span>
-				<span *ngIf="product.sale_status.tradeMethod" class="badge badge-warning mr-1">{{product.sale_status.tradeMethod | productTradeMethod }}</span>
-				<span *ngIf="product.sale_status.quotedMethod" class="badge badge-info mr-1">{{product.sale_status.quotedMethod | productQuotedMethod }}</span>
-			</div>
 			<div>
 				<p>发布者：{{ product.user.name }}</p>
 				<p>查看{{ product.user.name }}的其他产品</p>
 			</div>
 			<div class="row mb-3">
 				<div class="col">
+					<p>状态：
+						<span *ngIf="product.forSale == 1">出售中</span>
+						<span *ngIf="product.forSale == 0">收藏展示</span>
+					</p>
 					<p>赛季：
 						<span *ngFor="let season of product.seasons">{{season.name}} </span>
 					</p>
@@ -62,11 +70,15 @@
 					</p>
 				</div>
 			</div>
-			<button type="button" class="btn btn-primary mb-3" (click)="gotoProducts()">返回上一页</button>
 			<div class="mb-3 white-space">
 				<span>{{ product.description }}</span>
 			</div>
 		</div>
-
+	</div>
+	<div class="float-left">
+		<button type="button" class="btn btn-outline-danger btn-lg" [routerLink]="['/dashboard']">取消</button>
+	</div>
+	<div class="float-right">
+		<button type="button" class="btn btn-danger btn-lg" (click)="onApply()">申请发布</button>
 	</div>
 </div>

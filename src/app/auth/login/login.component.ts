@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder} from '@angular/forms';
-// import { BsModalService } from 'ngx-bootstrap/modal';
-// import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+
 import { Router } from '@angular/router';
 
 import { AuthService } from '../shared/auth.service';
@@ -20,41 +19,24 @@ export class LoginComponent implements OnInit {
 		private authService: AuthService,
 		private fb: FormBuilder,
 		private router: Router,
-		) {
+	) {
 		this.createForm();
 	}
 
 	createForm() {
-		this.loginForm = this.fb.group ({
+		this.loginForm = this.fb.group({
 			email: '',
 			password: '',
 		});
 	}
 
-	login(){
-		this.authService.getAccessToken(this.loginForm).subscribe(
-			response => {
-				localStorage.setItem('accessToken', response.access_token);
-				this.authService.getUser().subscribe(
-					user => {
-						this.authService.user = Object.assign({}, this.authService.user, user);
-						this.authService.isLoggedIn = true;
-						this.router.navigate(['/dashboard']);
-					})
-			},
-			error => {
-				console.log(error);
-			}
-			);
-	}
-
-	logout(){
-		this.authService.logout();
-		this.router.navigate(['/']);
+	login() {
+		this.authService.login(this.loginForm).subscribe(
+			() => this.router.navigate(['/dashboard'])
+		)
 	}
 
 	ngOnInit() {
-		console.log('loggedIn?', this.authService.isLoggedIn);
 	}
 
 }

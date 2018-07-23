@@ -14,9 +14,9 @@ import { Size }				from '../../model/size';
 import { Product }			from '../../model/product';
 import { User }				from '../../model/user';
 
-import { SharedService } 	from '../../shared/shared.service';
 import { ProductService }	from '../shared/product.service';
 import { AuthService }		from '../../auth/shared/auth.service';
+import { CoreService } from '../../core/core.service';
 
 @Component({
 	selector: 'app-product-upload',
@@ -43,15 +43,11 @@ export class ProductUploadComponent implements OnInit {
 		private router: Router,
 		private route: ActivatedRoute,
 		private fb: FormBuilder,
-		private sharedService: SharedService,
+		private coreService: CoreService,
 		private authService: AuthService,
 		private productService: ProductService,
 		) {
-		this.authService.getUser().subscribe(
-			user => {
-				this.user = user
-			}
-			);
+		this.user = this.authService.user;
 		this.getPlayers();
 		this.getTeams();
 		this.getSeasons();
@@ -114,61 +110,61 @@ export class ProductUploadComponent implements OnInit {
 			loas: [],
 			sizes: ['', Validators.required],
 			note: ['', Validators.maxLength(15)],
-			description: '',
+			description: ['', Validators.maxLength(1000)],
 		})
 	}
 
 	getPlayers(){
-		this.sharedService.getPlayers().subscribe(
+		this.coreService.getPlayers().subscribe(
 			players => this.players = players,
 			error => console.log(error)
 			);
 	}
 
 	getTeams(){
-		this.sharedService.getTeams().subscribe(
+		this.coreService.getTeams().subscribe(
 			teams => this.teams = teams,
 			error => console.log(error)
 			);
 	}
 
 	getSeasons(){
-		this.sharedService.getSeasons().subscribe(
+		this.coreService.getSeasons().subscribe(
 			seasons => this.seasons = seasons,
 			error => console.log(error)
 			);
 	}
 
 	getLevels(){
-		this.sharedService.getLevels().subscribe(
+		this.coreService.getLevels().subscribe(
 			levels => this.levels = levels,
 			error => console.log(error)
 			);
 	}
 
 	getItems(){
-		this.sharedService.getItems().subscribe(
+		this.coreService.getItems().subscribe(
 			items => this.items = items,
 			error => console.log(error)
 			);
 	}
 
 	getEditions(){
-		this.sharedService.getEditions().subscribe(
+		this.coreService.getEditions().subscribe(
 			editions => this.editions = editions,
 			error => console.log(error)
 			);
 	}
 
 	getLoas(){
-		this.sharedService.getLoas().subscribe(
+		this.coreService.getLoas().subscribe(
 			loas => this.loas = loas,
 			error => console.log(error)
 			);
 	}
 
 	getSizes(){
-		this.sharedService.getSizes().subscribe(
+		this.coreService.getSizes().subscribe(
 			sizes => this.sizes = sizes,
 			error => console.log(error)
 			);
@@ -201,7 +197,7 @@ export class ProductUploadComponent implements OnInit {
 		this.productService.updateProduct(product).subscribe(
 			product => {
 				//navigate to product sale
-				this.router.navigate(['/products/upload/'+product.id+'/sale-status']);
+				this.router.navigate(['dashboard']);
 			},
 			error => console.log(error)
 			)
